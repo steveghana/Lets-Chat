@@ -1,0 +1,31 @@
+:root {
+  --first-side-bar: #18202f;
+  --primary-text-color: #7785a4;
+  --border: #525c6f;
+}
+
+nav {
+  display: flex;
+  background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%);
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  z-index: 0;
+  width: auto;
+  color: white;
+  transition: transform 300ms ease-in;
+
+  ul {
+    display: flex;
+    // gap: 1rem;
+    list-style-type: none;
+    li {
+      padding: 1.3rem 0.5rem;
+      cursor: pointer;
+      &:hover {
+        background-color: rgba($color: #ffffff, $alpha: 0.1);
+        border-bottom: 1px dotted white;
+      }
+    }
+  }
+}
