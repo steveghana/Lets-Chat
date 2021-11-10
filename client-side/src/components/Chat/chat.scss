@@ -55,12 +55,12 @@
 
     .chat_box_container {
       display: flex;
-      flex-grow: 1;
+      padding: 1rem 1rem;
+
       flex-direction: column;
       gap: 1rem;
       position: relative;
-      padding: 1rem 1rem;
-      overflow-y: scroll;
+      overflow: hidden;
       // background-image: url("../assets/Forbidden West Homepage (2).png");
       .bgimage::before {
         content: "";
@@ -94,6 +94,12 @@
         background-color: var(--search-side-bar);
         color: white;
         margin: 0 auto;
+      }
+      .chat_box {
+        // display: flex;
+        // flex-direction: column;
+        // // position: relative;
+        overflow-y: scroll;
       }
       .welcome.user {
         border-radius: 5px;
@@ -176,18 +182,21 @@
 @media only screen and (max-width: 1000px) {
   .chat_box_container {
     flex: 0.6;
+    flex-grow: 1;
+    background-color: lawngreen;
   }
 }
 @media only screen and (max-width: 700px) {
   .chat_box_container {
     flex: 0.7;
+    flex-grow: 1;
   }
 }
 @media only screen and (max-width: 500px) {
   .chat_box_container {
     // flex: 0.9;
     width: 100%;
-
+    height: inherit;
     flex-grow: 1;
   }
 }

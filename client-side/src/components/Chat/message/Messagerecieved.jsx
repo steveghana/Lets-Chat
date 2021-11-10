@@ -3,12 +3,13 @@ import { Typography, Avatar } from "@material-ui/core";
 import "./message.scss";
 
 const Messagerecieved = ({ messages }) => {
+  console.log(messages);
   const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
   const userToChat = JSON.parse(sessionStorage.getItem("newuser"));
-  const { message, userinfo, time, otheruser } = messages;
+  const { message, time, otheruserId } = messages;
+  console.log(userToChat.id);
   return (
-    existinguser.userinfo.id === otheruser.id &&
-    userToChat.id === userinfo.id && (
+    userToChat.id === otheruserId && (
       <div className="message_recieved_container">
         <div className="image-time">
           <Avatar src={userToChat.imagUrl} alt="imagurl" />

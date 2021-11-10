@@ -3,7 +3,13 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import axios from "axios";
 import io from "socket.io-client";
 import Mobilenav from "../mobileNav/Mobilenav";
-import { Typography, Button, Grid, Switch } from "@material-ui/core";
+import {
+  Typography,
+  Button,
+  Grid,
+  Switch,
+  useMediaQuery,
+} from "@material-ui/core";
 import Message from "./message/Messages";
 import { UserContext } from "../usercontext";
 import DBmessage from "./message/DBmessages";
@@ -38,6 +44,7 @@ function Chat() {
   const initialState = {
     message: "",
   };
+  const isMobile = useMediaQuery("(max-width:700px)");
   const [messagesSent, setmessagesSent] = useState(initialState);
   const [sentmessage, setsentmessage] = useState([]);
   const [userTyping, setuserTyping] = useState(null);
@@ -98,9 +105,9 @@ function Chat() {
         ...recievedmessages,
         {
           user: message.user,
-          otheruser: message.otheruser,
+          myuserId: message.otheruserId,
+          otheruserId: message.userId,
           message: message.message,
-          userinfo: message.userinfo,
           time: message.time,
         },
       ]);
@@ -148,7 +155,7 @@ function Chat() {
       {
         user: existinguser.userinfo.name,
         message: messagesSent.message,
-        userinfo: existinguser.userinfo,
+        userid: existinguser.userinfo.id,
         time,
       },
     ]);
@@ -225,10 +232,7 @@ function Chat() {
       >
         <div className="chat_box_container" style={{ position: "relative" }}>
           <div className="bgimage">
-            {wallpaper ||
-              (Img?.img && (
-                <img src={wallpaper ? wallpaper : Img.img} alt="" />
-              ))}
+            {Img?.img && <img src={Img.img} alt="" />}
           </div>
           {welcomeMessage && welcomeMessage.user === "subscriber" ? (
             <div
@@ -251,23 +255,23 @@ function Chat() {
               <Typography variant="caption">{welcomeMessage?.text}</Typography>
             </div>
           )}
-          <ScrollToBottom>
-            <div className="chat_box_container" style={{ zIndex: "4" }}>
-              {DBmessages &&
-                DBmessages?.map((message, i) => (
-                  <div key={i} style={{ zIndex: "5" }}>
-                    {" "}
-                    <DBmessage message={message} />{" "}
-                  </div>
-                ))}
-              {recievedmessages?.map((message, i) => (
-                <div style={{ zIndex: "5" }} key={i}>
+          {/* <ScrollToBottom> */}
+          <div className="chat_box" style={{ zIndex: "4" }}>
+            {DBmessages &&
+              DBmessages?.map((message, i) => (
+                <div key={i} style={{ zIndex: "5" }}>
                   {" "}
-                  <Message messages={message} />
+                  <DBmessage message={message} />{" "}
                 </div>
               ))}
-            </div>
-          </ScrollToBottom>
+            {recievedmessages?.map((message, i) => (
+              <div style={{ zIndex: "5" }} key={i}>
+                {" "}
+                <Message messages={message} />
+              </div>
+            ))}
+          </div>
+          {/* </ScrollToBottom> */}
         </div>
         {usertochat && (
           <div className="message_input_container">

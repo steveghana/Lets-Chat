@@ -6,7 +6,7 @@ import "./message.scss";
 function Message({ messages }) {
   let isSendbyUser = false;
   const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
-  if (existinguser.userinfo.id.trim() === messages.userinfo.id.trim())
+  if (messages.userid && existinguser.userinfo.id === messages.userid)
     isSendbyUser = true;
   return isSendbyUser ? (
     <Messagesent messages={messages} />

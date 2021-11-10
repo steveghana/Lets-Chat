@@ -12,11 +12,6 @@ function Profile() {
   const usertoChat = JSON.parse(sessionStorage.getItem("newuser"));
   const { darkMode, connectionStatus } = useContext(UserContext);
 
-  // const [Connection, setConnection] = useState(null);
-  // setConnection(
-  //   connectionStatus &&
-  //     connectionStatus.find((user) => user?.id === usertoChat?.id)
-  // );
   const border = `1px solid ${darkMode ? "#525c6f" : "#4481eb"}`;
   return (
     usertoChat && (

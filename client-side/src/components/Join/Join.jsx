@@ -10,10 +10,13 @@ import FileBase from "react-file-base64";
 import "./join.scss";
 function Join() {
   const { userinput, setuserinput } = useContext(UserContext);
+  const err = useRef(null);
+  const signin = useRef(null);
   const container = useRef(null);
   const baseUrl = "http://localhost:5000/usermessages";
   const [eror, seteror] = useState("");
   const [userexists, setuserexists] = useState(null);
+  const [serverError, setserverError] = useState("");
   const [isLoading, setisLoading] = useState(false);
   const [signinerror, setsigninerror] = useState("");
   const history = useHistory();
@@ -30,29 +33,27 @@ function Join() {
     setsignInuser({ ...signInuser, [e.target.name]: e.target.value });
   };
   const handlesigninSubmit = async (e) => {
-    e.preventDefault();
-    if (
-      signInuser?.phone.length < 10 ||
-      signInuser?.phone.length > 13 ||
-      isNaN(signInuser.phone)
-    ) {
-      seteror({ phone: "Please enter a valid phone number" });
-    }
+    // e.preventDefault();
+
+    if (signInuser.phone.length < 10)
+      signin.current.innerText = "Please enter a valid phone number";
+
+    if (signInuser.phone === "")
+      signin.current.innerText = "Please enter your phone Number";
 
     const { data } = await axios.post(`${baseUrl}/signin`, {
       phone: signInuser.phone,
     });
-    if (data.error) {
-      seteror({ phne: data.eror });
-    } else if (data.userexist) {
+    if (data.error) signin.current.innerText = "User doesn't exist";
+    // setserverError(data.eror);
+    if (data.userexist) {
       sessionStorage.clear();
       sessionStorage.setItem(
         "userprofile",
         JSON.stringify({ userinfo: data?.userexist, new: true })
       );
-      seteror("");
+
       history.push(`/chat/${data?.userexist.name}`);
-      //navigat to chat
     }
   };
 
@@ -64,26 +65,38 @@ function Join() {
     });
     if (data.userexist) {
       setisLoading(false);
-      seteror({ alreadyexist: "User already exist, try signing in" });
-      //navigat to chat
+      err.current.innerText = "User already exist, try signing in";
     } else {
-      setisLoading(false);
-      history.push(`/chat/${userinput.name}`);
+      if (userinput.name === "")
+        err.current.innerText = "Please enter your name";
+      if (userinput.phone === "")
+        err.current.innerText = "Please enter your phone Number";
+      if (isNaN(userinput.phone))
+        err.current.innerText = "Please enter a Valid phone Number";
+      if (userinput.phone.length < 10)
+        err.current.innerText =
+          "Your phone Number must be at least 10 characters long";
+      else {
+        seteror("");
+        setisLoading(false);
+        history.push(`/chat/${userinput.name}`);
+      }
     }
   };
-  const handleSignup = () => container.current.classList.add("sign-up-mode");
-  const handleSignin = () => container.current.classList.remove("sign-up-mode");
+  const handleSignup = () => {
+    seteror("");
+    container.current.classList.add("sign-up-mode");
+  };
+  const handleSignin = () => {
+    seteror("");
+    container.current.classList.remove("sign-up-mode");
+  };
 
   return (
     <div className="container" ref={container}>
       <div className="forms-container">
         <div className="signin-signup">
-          <form
-            action="#"
-            noValidate
-            onSubmit={handlesigninSubmit}
-            className="sign-in-form"
-          >
+          <form noValidate className="sign-in-form">
             <h2 className="title">Sign in</h2>
 
             <div className="input-field">
@@ -99,43 +112,14 @@ function Join() {
                 onChange={handleSigninChange}
               />
             </div>
-            <Typography color="secondary" className="error">
-              {eror?.phone}
+            <Typography ref={signin} color="secondary" className="error">
+              {" "}
             </Typography>
-            {/* <div className="input-field">
-              <i className="fas fa-user"></i>
-              <input
-                type="password"
-                value={userinput.password}
-                   required={true}
-                name="password"
-                placeholder="Enter your password"
-                label="Password"
-                variant="outlined"
-                autoComplete="off"
-                onChange={handleSigninChange}
-              />
-            </div>
-            <Typography color="secondary" className="error">
-              {eror?.password}
-            </Typography> */}
 
-            <input type="submit" value="Login" className="btn solid" />
+            <Button onClick={handlesigninSubmit} className="btn solid">
+              Sign in
+            </Button>
             <p className="social-text">Or Sign in with social platforms</p>
-            {/* <div className="social-media">
-              <a>
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a>
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a>
-                <i className="fab fa-google"></i>
-              </a>
-              <a>
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div> */}
           </form>
           {/*  */}
           <form
@@ -154,7 +138,6 @@ function Join() {
                 name="name"
                 placeholder="Enter your name"
                 label="Name"
-                variant="outlined"
                 autoComplete="off"
                 onChange={handleChange}
               />
@@ -225,9 +208,12 @@ function Join() {
                 onChange={handleChange}
               />
             </div>
-            <Typography color="secondary" className="error" variant="h6">
-              {eror?.alreadyexist}
-            </Typography>
+            <Typography
+              ref={err}
+              color="secondary"
+              className="error"
+              variant="h6"
+            ></Typography>
             <div
               className="file-type"
               style={{

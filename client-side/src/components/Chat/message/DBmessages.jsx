@@ -9,8 +9,7 @@ function DBmessage({ message }) {
   return (
     message.id === trimedId &&
     message?.messages?.map((userinfo, i) =>
-      userinfo?.user?.FromMe === trimedId &&
-      userinfo?.user?.otherId === userTochat.id ? (
+      userinfo?.user?.FromMe === trimedId ? (
         <div
           className="message_sent_container"
           key={userinfo?.user?.FromMe + i}
@@ -24,7 +23,7 @@ function DBmessage({ message }) {
           </div>
         </div>
       ) : (
-        userinfo?.user?.ToSomeone === userTochat.id && (
+        userinfo?.user?.FromSomeone === userTochat.id && (
           <div className="message_recieved_container" key={userTochat.id + i}>
             <div className="image-time">
               <Avatar src={userTochat?.imagUrl} alt="imagurl" />

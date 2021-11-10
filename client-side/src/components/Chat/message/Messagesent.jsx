@@ -3,10 +3,10 @@ import { Typography, Avatar } from "@material-ui/core";
 import "./message.scss";
 const Messagesent = ({ messages }) => {
   const existinguser = JSON.parse(sessionStorage.getItem("userprofile"));
-  const { message, userinfo, time } = messages;
+  const { message, userid, time } = messages;
 
   return (
-    existinguser.userinfo.id === userinfo.id && (
+    existinguser.userinfo.id === userid && (
       <div className="message_sent_container">
         <div className="image-time">
           <Avatar src={existinguser.userinfo.imagUrl} alt="imagurl" />
