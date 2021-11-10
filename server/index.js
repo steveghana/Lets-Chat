@@ -78,26 +78,25 @@ io.on("connection", (socket) => {
 
   // });
   socket.on("sendMessage", (messages) => {
-    const { myphone, message, otheruser, id, time } = messages;
+    const { myphone, message, otheruserId, id, time } = messages;
     const user = getUser(id);
-    const toChat = userNowActive.filter((user) => user.id === otheruser.id);
-    getOtherUsersMessagesOffline(otherUser.id, messages);
     !user && console.log("no user was found");
+    getOtherUsersMessagesOffline(otheruserId, messages);
     getmessages(user.id, message, user, otheruserId, time);
     socket.to(room).emit("incomingAndOutgoingMessages", {
       user: user.name,
+      userId: user.id,
       message,
       otheruserId,
-      userinfo: user,
       time,
     });
   });
   socket.on("recievedmessages", (messageRecieved) => {
     if (messageRecieved) {
-      const { message, userinfo, user } = messageRecieved;
+      const { otheruserId, message, userId, user } = messageRecieved;
       const existinguser = getUser(socketid);
 
-      if (userinfo.id !== existinguser.id) {
+      if (userId !== existinguser.id) {
         getOtherUsersMessages(existinguser.id, messageRecieved);
       }
     }

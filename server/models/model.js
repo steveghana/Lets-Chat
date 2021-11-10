@@ -25,7 +25,7 @@ const messageModel = mongoose.Schema({
   messages: [
     {
       user: {
-        ToSomeone: String,
+        FromSomeone: String,
         FromMe: String,
         otherId: String,
         name: String,

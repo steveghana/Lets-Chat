@@ -3,12 +3,12 @@ const usermessages = [];
 let useronline = [];
 let chathistory = [];
 const getOtherUsersMessagesOffline = async (id, messages) => {
-  const { otheruser, myinfo, message, time } = messages;
+  const { otheruserId, myinfo, message, time } = messages;
   const existinguser = await incomingMessage.findOne({ id });
   try {
-    if (existinguser && messages.otheruser) {
+    if (existinguser && messages.otheruserId) {
       const userToChatWith = useronline.find(
-        (user) => messages?.otheruser?.id === user?.id
+        (user) => messages?.otheruserId === user?.id
       );
       if (!userToChatWith && messages?.id !== existinguser?.id) {
         await incomingMessage.updateOne(
@@ -39,20 +39,18 @@ const getOtherUsersMessages = async (id, messages) => {
   try {
     const existinguser = await incomingMessage.findOne({ id });
 
-    if (existinguser.id === id) {
+    if (existinguser) {
       await incomingMessage.updateOne(
         { id },
         {
           $addToSet: {
             messages: {
               user: {
-                ToSomeone: messages.userinfo.id,
+                FromSomeone: messages.userId,
                 name: messages.user,
-                phone: messages.userinfo.phone,
-                country: messages.userinfo.country,
               },
               message: messages.message,
-              createdAt: String(time),
+              createdAt: String(messages.time),
             },
           },
         }
