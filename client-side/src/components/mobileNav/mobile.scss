@@ -1,12 +1,12 @@
 :root {
-  --first-side-bar: #18202f;
+  --primary-bg: #4481eb;
   --primary-text-color: #7785a4;
   --border: #525c6f;
 }
 
 nav {
   display: flex;
-  background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%);
+  background-image: linear-gradient(-45deg, --primary-bg 0%, #04befe 100%);
   position: absolute;
   top: 0%;
   left: 0%;
@@ -17,7 +17,6 @@ nav {
 
   ul {
     display: flex;
-    // gap: 1rem;
     list-style-type: none;
     li {
       padding: 1.3rem 0.5rem;

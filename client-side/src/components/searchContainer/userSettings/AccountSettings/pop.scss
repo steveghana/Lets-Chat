@@ -1,5 +1,5 @@
 .popup {
-  padding: 1rem;
+  padding: 0.5rem;
   position: absolute;
   width: auto;
   gap: 0.5rem;
@@ -13,4 +13,46 @@
   border-radius: 6px;
   width: auto;
   z-index: 1;
+  .popcontainer {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    .popwrapper {
+      display: flex;
+      align-items: flex-start;
+      .inputfield {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  }
+}
+.info-container {
+  padding: 1rem;
+  position: absolute;
+  width: auto;
+  height: auto;
+  // background-color: white;
+  top: 100%;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  color: black;
+  border-radius: 6px;
+  width: auto;
+  z-index: 1;
+  .popup {
+    padding: 1rem;
+    .infocontainer {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      .info {
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+  }
 }

@@ -25,10 +25,12 @@ function Inboxcontainer() {
     showSettings,
     setshowSettings,
     setshowInputBox,
+    socketInstance,
   } = useContext(UserContext);
 
   const handlerefresh = () => {
     sessionStorage.clear();
+    socketInstance.emit("userleft", existinguser.userinfo.id);
     history.push("/");
     window.location.reload();
     setshowInputBox(true);
@@ -71,8 +73,7 @@ function Inboxcontainer() {
           <PersonAddOutlined color={darkMode ? "disabled" : "primary"} />
         </div>
       </div>
-      {/* <Typography> Chat</Typography>
-      <Typography>Notification</Typography> */}
+
       <div
         className="message_box"
         onClick={() => {

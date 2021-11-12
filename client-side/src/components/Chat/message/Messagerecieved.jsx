@@ -6,17 +6,18 @@ const Messagerecieved = ({ messages }) => {
   console.log(messages);
   const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
   const userToChat = JSON.parse(sessionStorage.getItem("newuser"));
-  const { message, time, otheruserId } = messages;
-  console.log(userToChat.id);
+  const { message, time, otheruserId, myuserId } = messages;
+
   return (
-    userToChat.id === otheruserId && (
+    userToChat.id === otheruserId &&
+    existinguser.userinfo.id === myuserId && (
       <div className="message_recieved_container">
         <div className="image-time">
           <Avatar src={userToChat.imagUrl} alt="imagurl" />
-          <Typography variant="caption">{time}</Typography>
         </div>
         <div className="message-box">
           <Typography>{message}</Typography>
+          <Typography variant="caption">{time}</Typography>
         </div>
       </div>
     )

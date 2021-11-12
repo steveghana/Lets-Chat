@@ -1,13 +1,10 @@
 import React, { useContext } from "react";
 import { HomeOutlined, SortOutlined } from "@material-ui/icons";
-import { Grid, useMediaQuery, Avatar } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
+import { Grid, useMediaQuery } from "@material-ui/core";
 import { UserContext } from "../usercontext";
 import "./toggle.scss";
 function Togglemenu() {
-  const history = useHistory();
   const isMobile = useMediaQuery("(max-width:700px)");
-  const existinguser = JSON.parse(sessionStorage.getItem("userprofile"));
   const { darkMode, setshowmbileNav, settoggleMobileNav } =
     useContext(UserContext);
 
@@ -43,7 +40,9 @@ function Togglemenu() {
             borderBottom: darkMode && "1px solid #525c6f",
           }}
         >
-          <Avatar src={existinguser?.userinfo?.imagUrl} />
+          <div className="icon">
+            <HomeOutlined />
+          </div>
         </div>
       )}
 

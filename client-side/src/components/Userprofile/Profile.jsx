@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   MoreHorizOutlined,
   Facebook,
@@ -10,9 +10,10 @@ import { UserContext } from "../usercontext";
 import { Typography, Grid, Avatar } from "@material-ui/core";
 function Profile() {
   const usertoChat = JSON.parse(sessionStorage.getItem("newuser"));
-  const { darkMode, connectionStatus } = useContext(UserContext);
-
+  const { darkMode, connectionStatus, userHistoryAtProfile } =
+    useContext(UserContext);
   const border = `1px solid ${darkMode ? "#525c6f" : "#4481eb"}`;
+  console.log(userHistoryAtProfile);
   return (
     usertoChat && (
       <Grid
@@ -54,20 +55,11 @@ function Profile() {
           ></div>
         </div>
         <div className="avatar-description" style={{ borderBottom: border }}>
-          <div
-            className="avatar"
-            style={{
-              borderRadius: "50%",
-              overflow: "hidden",
-              backgroundColor: "#4481eb",
-            }}
-          >
-            <img
+          <div className="avatar">
+            <Avatar
               src={usertoChat?.imagUrl}
               alt="avatar"
-              style={{ objectFit: "cover" }}
-              width="200"
-              height="200"
+              style={{ width: "200px", height: "200px" }}
             />
           </div>
           <div className="name-destination">

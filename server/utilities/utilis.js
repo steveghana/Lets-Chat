@@ -2,7 +2,7 @@ const incomingMessage = require("../models/model");
 const usermessages = [];
 let useronline = [];
 let chathistory = [];
-const getOtherUsersMessagesOffline = async (id, messages) => {
+const postOtherUsersMessagesOffline = async (id, messages) => {
   const { otheruserId, myinfo, message, time } = messages;
   const existinguser = await incomingMessage.findOne({ id });
   try {
@@ -17,7 +17,8 @@ const getOtherUsersMessagesOffline = async (id, messages) => {
             $addToSet: {
               messages: {
                 user: {
-                  ToSomeone: myinfo.id,
+                  Sender: myinfo.id,
+                  myId: otheruserId,
                   name: myinfo.name,
                   phone: myinfo.phone,
                   country: myinfo.country,
@@ -46,7 +47,8 @@ const getOtherUsersMessages = async (id, messages) => {
           $addToSet: {
             messages: {
               user: {
-                FromSomeone: messages.userId,
+                Sender: messages.userId,
+                myId: messages.otheruserId,
                 name: messages.user,
               },
               message: messages.message,
@@ -80,7 +82,7 @@ const getmessages = async (id, message, { name }, otheruserId, time) => {
             messages: {
               user: {
                 FromMe: existinguser.id,
-                otherId: otheruserId,
+                Reciever: otheruserId,
                 name,
                 createdAt: String(time),
               },
@@ -175,13 +177,18 @@ const getUserOnline = async (id) => {
     (await incomingMessage.updateOne({ id }, { connectionStatus: "online" }));
   useronline.push(existinguser);
 };
-const deleteUserFromHistory = (id) => {
-  //  await incomingMessage.findOneAndDelete({id}).where()
-};
-const setusersOffline = (id) => {
+const clearChat = async (id) => {
   const existinguser = incomingMessage.findOne({ id });
   existinguser &&
-    existinguser.findOneAndUpdate({ id }, { connectionStatus: "offline" });
+    (await incomingMessage.findOneAndUpdate({ id }, { messages: [] }));
+};
+const setusersOffline = async (id) => {
+  const existinguser = incomingMessage.findOne({ id });
+  existinguser &&
+    (await incomingMessage.findOneAndUpdate(
+      { id },
+      { connectionStatus: "offline" }
+    ));
 };
 const getuserTyping = (id) => {
   const onlineuser = useronline.find((user) => user.id === id);
@@ -198,7 +205,7 @@ const getuserByroom = async (room) => {
 };
 
 module.exports = {
-  getOtherUsersMessagesOffline,
+  postOtherUsersMessagesOffline,
   getHistory,
   getUserOnline,
   getOtherUsersMessages,
@@ -210,4 +217,5 @@ module.exports = {
   getmessages,
   setusersOffline,
   getuserTyping,
+  clearChat,
 };

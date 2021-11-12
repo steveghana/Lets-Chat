@@ -83,19 +83,13 @@ function Popup({
           <Spinner bg="#4481eb" />
         ) : (
           <div
+            className="popcontainer"
             style={{
               display: serverFeed ? "none" : "flex",
-              flexDirection: "column",
             }}
           >
-            <div style={{ display: "flex", alignItems: "flex-start" }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1rem",
-                }}
-              >
+            <div className="popwrapper">
+              <div className="inputfield">
                 <div className="error">
                   {numerror.oldnum && numerror?.oldnum}
                 </div>
@@ -154,11 +148,12 @@ function Popup({
     );
   } else if (accountDelete) {
     return (
-      <div className="popup" style={{ textAlign: "center" }}>
+      <div style={{ textAlign: "center" }}>
         {isLoading ? (
           <Spinner bg="#4481eb" />
         ) : (
           <div
+            className="popup"
             style={{
               display: serverFeed ? "none" : "flex",
               flexDirection: "column",
@@ -179,12 +174,12 @@ function Popup({
               >
                 Yes
               </Button>
+
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => {
                   setaccountDelete(false);
-                  accountDeleted();
                 }}
               >
                 No
@@ -192,9 +187,9 @@ function Popup({
             </div>
           </div>
         )}
-        ;
+
         {serverFeed ? (
-          <div style={{ display: "flex", alignItems: "flex-start" }}>
+          <div className="popup">
             <Typography>{serverFeed?.message || serverFeed?.error}</Typography>
           </div>
         ) : null}
@@ -202,7 +197,7 @@ function Popup({
     );
   } else if (userInfo) {
     return (
-      <div className="pop-container">
+      <div className="info-container">
         <div
           className="popup"
           style={{
@@ -211,28 +206,31 @@ function Popup({
             justifyContent: "center",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            className="infocontainer"
+            style={{ display: "flex", flexDirection: "column" }}
+          >
             <div className="info">
               <span>
-                <strong>Name : </strong>
+                <strong>Name:</strong>
               </span>
               <span>{existinguser?.userinfo?.name}</span>
             </div>
             <div className="info">
               <span>
-                <strong>Phone : </strong>
+                <strong>Phone:</strong>
               </span>
               <span>{existinguser?.userinfo?.phone}</span>
             </div>
             <div className="info">
               <span>
-                <strong>Country : </strong>
+                <strong>Country:</strong>
               </span>
               <span>{existinguser?.userinfo?.country}</span>
             </div>
             <div className="info">
               <span>
-                <strong>Language : </strong>
+                <strong>Language: </strong>
               </span>
               <span>{existinguser?.userinfo?.language}</span>
             </div>

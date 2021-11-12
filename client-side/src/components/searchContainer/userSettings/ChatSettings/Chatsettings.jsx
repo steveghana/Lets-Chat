@@ -16,6 +16,7 @@ function Chatsettings() {
         <WallpaperOutlined />
         <Typography>WallPaper</Typography>
       </div>
+
       <div className="message_box">
         <Typography>Font Size</Typography>
       </div>

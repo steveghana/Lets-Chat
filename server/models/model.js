@@ -25,9 +25,9 @@ const messageModel = mongoose.Schema({
   messages: [
     {
       user: {
-        FromSomeone: String,
+        Sender: String,
+        Reciever: String,
         FromMe: String,
-        otherId: String,
         name: String,
         phone: String,
         imagUrl: String,

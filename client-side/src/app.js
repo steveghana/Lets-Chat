@@ -23,6 +23,7 @@ function App() {
   const [recievedmessages, setrecievedmessages] = useState([]);
   const [showINputBox, setshowInputBox] = useState(false);
   const [user, setuser] = useState("");
+  const [userHistoryAtProfile, setuserHistoryAtProfile] = useState([]);
   const [socketInstance, setsocketInstance] = useState(null);
   const [showChatHistory, setshowChatHistory] = useState(false);
   const [connectionStatus, setconnectionStatus] = useState("");
@@ -35,6 +36,8 @@ function App() {
   return (
     <UserContext.Provider
       value={{
+        userHistoryAtProfile,
+        setuserHistoryAtProfile,
         toggleMobileNav,
         settoggleMobileNav,
         wallpaper,

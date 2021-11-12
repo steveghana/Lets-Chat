@@ -22,9 +22,9 @@ const getchatHistory = async (req, res) => {
 };
 
 const getuserbyid = async (req, res) => {
-  const { id: _id } = req.params;
+  const { id } = req.params;
   try {
-    const user = await incomingMessage.findById({ _id });
+    const user = await incomingMessage.findOne({ id });
     res.status(200).send(user);
   } catch (error) {
     res.status(404).send("no user was found");

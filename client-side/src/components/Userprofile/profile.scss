@@ -1,8 +1,6 @@
 :root {
-  --first-side-bar: #18202f;
-  --inbox-side-bar: #232a39;
-  --search-side-bar: #2f3744;
-  --primary-text-color: #7785a4;
+  --anim: #f64d23;
+  --primary-bg: #4481eb;
   --border: #525c6f;
   --chat-border: rgb(197, 197, 197);
 }
@@ -21,22 +19,20 @@
     }
     @keyframes online {
       0% {
-        background-color: #f0bea1;
+        background-color: var(--anim);
+
         transform: scale(1, 1);
-        // border-radius: 50px;
         border-radius: 50%;
       }
 
       50% {
-        background-color: #ee3110;
-        // border-radius: 50px;
+        background-color: #ffe604;
         border-radius: 50%;
         transform: scale(1.5, 1.5);
       }
 
       100% {
-        background-color: #eebda1;
-        // border-radius: 50px;
+        background-color: var(--anim);
         border-radius: 50%;
         transform: scale(1, 1);
       }
@@ -99,8 +95,14 @@
     .name-destination {
       display: flex;
       margin-top: 1rem;
+      justify-content: center;
       flex-direction: column;
       align-items: center;
+    }
+    .avatar {
+      border-radius: "50%";
+      overflow: "hidden";
+      background-color: "#4481eb";
     }
   }
   .about-user {

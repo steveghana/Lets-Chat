@@ -1,18 +1,13 @@
-:root{
-    --first-side-bar : #18202F;
-    --inbox-side-bar : #232A39;
-    --search-side-bar : #2F3744;
-    --primary-text-color: #7785A4;
-    --border:#525c6f;
-}
-*, ::after, ::before{
-    margin: 0;
-    padding: 0%;
-    box-sizing: border-box;
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0%;
+  box-sizing: border-box;
 }
 
-.app_container{
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
+.app_container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
 }

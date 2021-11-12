@@ -10,10 +10,10 @@ const Messagesent = ({ messages }) => {
       <div className="message_sent_container">
         <div className="image-time">
           <Avatar src={existinguser.userinfo.imagUrl} alt="imagurl" />
-          <Typography variant="caption">{time}</Typography>
         </div>
         <div className="message-box">
           <Typography>{message}</Typography>
+          <Typography variant="caption">{time}</Typography>
         </div>
       </div>
     )
