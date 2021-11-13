@@ -46,55 +46,9 @@ export const getmessages = async (setDBmessages) => {
   setDBmessages(userinfo);
 };
 
-export const handleSubmit = (
-  e,
-  setrecievedmessages,
-  existinguser,
-  messagesSent,
-  setsentmessage,
-  sentmessage,
-  socket,
-  newuser,
-  usertochat,
-  initialState,
-  recievedmessages,
-  setmessagesSent
-) => {
-  e.preventDefault();
-  const time = new Date().toLocaleTimeString();
+// export const signInAuth = (signInuser, signin) => {
 
-  setrecievedmessages([
-    ...recievedmessages,
-    {
-      user: existinguser.userinfo.name,
-      message: messagesSent.message,
-      userid: existinguser.userinfo.id,
-      time,
-    },
-  ]);
-  setsentmessage([...sentmessage, messagesSent]);
-  messagesSent &&
-    socket.emit("sendMessage", {
-      message: messagesSent.message,
-      myinfo: existinguser.userinfo,
-      id: existinguser.userinfo.id,
-      otheruserId: newuser.id,
-      time,
-    });
-  setmessagesSent(initialState);
-};
-
-export const signInAuth = (signInuser, signin) => {
-  if (signInuser.phone.length === 0) {
-    signin.current.innerText = "Please enter your phone Number";
-  }
-  if (isNaN(signInuser.phone)) {
-    signin.current.innerText = "Please enter a valid phone Number";
-  }
-  if (signInuser.phone.length > 1 && signInuser.phone.length < 10) {
-    signin.current.innerText = "Please enter a valid phone number";
-  }
-};
+// };
 
 export const inputSubmitAuth = (
   userinput,
@@ -120,45 +74,22 @@ export const inputSubmitAuth = (
   }
 };
 
-export const gethistory = async (allusers, chatHistory, setchatHistory) => {
-  if (History) {
-    for (let i = 0; i < History?.length; i++) {
+export const gethistory = (
+  allusers,
+  chatHistoryContainingId,
+  history,
+  sethistory
+) => {
+  if (chatHistoryContainingId) {
+    for (let i = 0; i < chatHistoryContainingId?.length; i++) {
       for (let j = 0; j < allusers?.length; j++) {
-        if (History[i]?.user.id === allusers[j]?.id) {
-          const allreadyInData = chatHistory.find(
+        if (chatHistoryContainingId[i]?.user?.id === allusers[j]?.id) {
+          const allreadyInData = history.find(
             (user) => user.id === allusers[j]?.id
           );
-          !allreadyInData && setchatHistory([...chatHistory, allusers[j]]);
+          !allreadyInData && sethistory([...history, allusers[j]]);
         }
       }
     }
   }
-};
-
-export const getusers = async (
-  setLoading,
-  existinguser,
-  setHistory,
-  setAllusers,
-  setfilteredUsers,
-  usertoChat,
-  setconnectionStatus
-) => {
-  setLoading(true);
-  const { data: userinfo } = await axios.get(`${baseURL}/usermessages`);
-  userinfo && setLoading(false);
-  const myinfo = userinfo?.find(
-    (user) => user?.id === existinguser?.userinfo.id
-  );
-  setHistory(myinfo?.ChatHistory);
-  const usersExceptMe = userinfo?.filter(
-    (user) => user?.id !== existinguser?.userinfo.id
-  );
-  setAllusers(usersExceptMe);
-  setfilteredUsers(usersExceptMe);
-  const userconnection = usersExceptMe.find(
-    (user) => user?.id === usertoChat?.id
-  );
-  setconnectionStatus(userconnection?.connectionStatus);
-  return userinfo;
 };

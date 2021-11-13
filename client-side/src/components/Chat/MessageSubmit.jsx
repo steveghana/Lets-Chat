@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "@material-ui/core";
-import { UserContext } from "../usercontext";
 import {
   LinkOutlined,
   InsertEmoticonOutlined,
@@ -10,6 +9,7 @@ import "./chat.scss";
 import { handleSubmit } from "../ExternalFunction.";
 function MessageSubmit({
   messagesSent,
+  darkMode,
   setrecievedmessages,
   existinguser,
   setsentmessage,
@@ -20,15 +20,39 @@ function MessageSubmit({
   recievedmessages,
   setmessagesSent,
 }) {
-  const { darkMode, setdarkMode } = UserContext;
+  // const {darkMode} = darkMode
   const usertochat = JSON.parse(sessionStorage.getItem("newuser"));
-  const toggleColor = darkMode ? "disabled" : "primary";
+  const toggleColor = darkMode.darkMode ? "disabled" : "primary";
   const toggleStyle = {
-    border: `1px solid ${darkMode ? "#525c6f" : "#4481eb"}`,
+    border: `1px solid ${darkMode.darkMode ? "#525c6f" : "#4481eb"}`,
   };
   const handleChange = (e) => {
     socket.emit("typing", existinguser.userinfo.id);
     setmessagesSent({ ...messagesSent, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const time = new Date().toLocaleTimeString();
+
+    setrecievedmessages([
+      ...recievedmessages,
+      {
+        user: existinguser.userinfo.name,
+        message: messagesSent.message,
+        userid: existinguser.userinfo.id,
+        time,
+      },
+    ]);
+    setsentmessage([...sentmessage, messagesSent]);
+    messagesSent &&
+      socket.emit("sendMessage", {
+        message: messagesSent.message,
+        myinfo: existinguser.userinfo,
+        id: existinguser.userinfo.id,
+        otheruserId: usertochat.id,
+        time,
+      });
+    setmessagesSent(initialState);
   };
   if (usertochat)
     return (
@@ -48,27 +72,11 @@ function MessageSubmit({
           <div className="emoji" style={toggleStyle}>
             <InsertEmoticonOutlined color={toggleColor} />
           </div>
-          <Button
-            onClick={(e) => {
-              handleSubmit(
-                e,
-                setrecievedmessages,
-                existinguser,
-                messagesSent,
-                setsentmessage,
-                sentmessage,
-                socket,
-                newuser,
-                initialState,
-                recievedmessages,
-                setmessagesSent
-              );
-            }}
-          >
+          <Button onClick={handleSubmit}>
             <div
               className="send_icon"
               style={{
-                background: darkMode
+                background: darkMode.darkMode
                   ? "#18202f"
                   : "linear-gradient(-45deg, #4481eb 0%, #04befe 100%)",
               }}

@@ -178,9 +178,12 @@ const getUserOnline = async (id) => {
   useronline.push(existinguser);
 };
 const clearChat = async (id) => {
-  const existinguser = incomingMessage.findOne({ id });
-  existinguser &&
-    (await incomingMessage.findOneAndUpdate({ id }, { messages: [] }));
+  const existinguser = await incomingMessage.findOne({ id });
+  if (!existinguser) return { err: "Something went wrong" };
+  if (existinguser.messages.length === 0)
+    return { deleted: "No messages found" };
+  await incomingMessage.findOneAndUpdate({ id }, { messages: [] });
+  return { deleted: "Deleted sucessfully" };
 };
 const setusersOffline = async (id) => {
   const existinguser = incomingMessage.findOne({ id });

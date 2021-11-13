@@ -7,11 +7,10 @@ import {
   CameraEnhanceOutlined,
   SendOutlined,
 } from "@material-ui/icons";
+import TemporalMsgPopUp from "./TemporalMsgPopUp";
 import "./chat.scss";
-import { UserContext } from "../usercontext";
 
-function ChatAppbar({ userTyping, showusertyping }) {
-  const { darkMode, setdarkMode } = UserContext;
+function ChatAppbar({ userTyping, showusertyping, darkMode, setdarkMode }) {
   const toggleColor = darkMode ? "disabled" : "primary";
   const toggleStyle = {
     border: `1px solid ${darkMode ? "#525c6f" : "#4481eb"}`,
@@ -24,6 +23,7 @@ function ChatAppbar({ userTyping, showusertyping }) {
         borderBottom: darkMode && "1px solid #525c6f",
       }}
     >
+      <TemporalMsgPopUp />
       <Typography
         variant="body2"
         style={{
@@ -31,7 +31,6 @@ function ChatAppbar({ userTyping, showusertyping }) {
           transition: "400ms ease-in",
         }}
       >{`${userTyping?.name} is Typing ...`}</Typography>
-
       <div
         className="switch"
         style={{
@@ -43,12 +42,10 @@ function ChatAppbar({ userTyping, showusertyping }) {
         <Typography>{darkMode ? "DarkMode" : "LightMode"}</Typography>
         <Switch
           color="primary"
-          value="Dark Mode"
-          style={{ color: toggleColor }}
+          style={{ color: darkMode ? "black" : "blue" }}
           onClick={handleSwitch}
         />
       </div>
-
       <div className="icons">
         <div className="icon" style={toggleStyle}>
           <StarOutline style={{ padding: ".10rem" }} color={toggleColor} />

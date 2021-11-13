@@ -16,9 +16,9 @@ import "./inbox.scss";
 function Inboxcontainer() {
   const history = useHistory();
   const existinguser = JSON.parse(sessionStorage.getItem("userprofile"));
-  const [allMessages, setallMessages] = useState([]);
-  const [unRead, setunRead] = useState([]);
+
   const {
+    setallMessages,
     darkMode,
     setshowChatHistory,
     recievedmessages,
@@ -30,7 +30,7 @@ function Inboxcontainer() {
 
   const handlerefresh = () => {
     sessionStorage.clear();
-    socketInstance.emit("userleft", existinguser.userinfo.id);
+    socketInstance.emit("userleft", existinguser?.userinfo.id);
     history.push("/");
     window.location.reload();
     setshowInputBox(true);
@@ -44,7 +44,7 @@ function Inboxcontainer() {
         (user) => user?.id === existinguser?.userinfo.id
       );
       const theMessages = theUser?.messages?.filter(
-        (message) => message?.user.id !== existinguser?.userinfo.id
+        (message) => message?.user.Sender
       );
       setallMessages(theMessages);
     })();

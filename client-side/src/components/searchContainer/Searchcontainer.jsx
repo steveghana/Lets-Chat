@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import axios from "axios";
-
 import { Spinner } from "../exports";
 import { SearchOutlined, AutorenewTwoTone } from "@material-ui/icons";
-import { gethistory, getusers } from "../ExternalFunction.";
+import { gethistory } from "../ExternalFunction.";
 import { ArrowBack } from "@material-ui/icons";
 import { Grid, useMediaQuery } from "@material-ui/core";
 import { UserContext } from "../usercontext";
 import AllUsers from "./AllUsers";
+import History from "./History";
 import Usersettings from "./userSettings/Usersettings";
 import "./search.scss";
 function Searchcontainer() {
@@ -26,24 +26,21 @@ function Searchcontainer() {
     setuserHistoryAtProfile,
   } = useContext(UserContext);
   const isMobile = useMediaQuery("(max-width:700px)");
-
   const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
   const usertoChat = JSON.parse(sessionStorage.getItem("newuser"));
   const refresh = useRef(null);
   const [allusers, setAllusers] = useState([]);
-  const [chatHistory, setchatHistory] = useState([]);
+  const [chatHistoryContainingId, setchatHistoryContainingId] = useState([]);
+  const [history, sethistory] = useState([]);
+  const [filteredChatHistory, setfilteredChatHistory] = useState([]);
   const [filteredUsers, setfilteredUsers] = useState([]);
   const [filteredValue, setfilteredValue] = useState("");
   const [showArrow, setshowArrow] = useState(false);
-  const [showDeletePopup, setshowDeletePopup] = useState(false);
   const [showNotification, setshowNotification] = useState(false);
   const [chatSettings, setchatSettings] = useState(false);
   const [showAccountSetting, setshowAccountSetting] = useState(false);
-  const [History, setHistory] = useState(null);
-
   const [Loading, setLoading] = useState(false);
-  const handleDeletePop = () => setshowDeletePopup((prevValue) => !prevValue);
-
+  //
   const getUserById = async (id) => {
     setrecievedmessages([]);
     setDBmessages(null);
@@ -53,23 +50,43 @@ function Searchcontainer() {
     socketInstance.emit("userhasArrived", existinguser);
     window.location.reload();
   };
-  useEffect(() => {
-    getusers(
-      setLoading,
-      existinguser,
-      setHistory,
-      setAllusers,
-      setfilteredUsers,
-      usertoChat,
-      setconnectionStatus
+  //
+  const getusers = async () => {
+    setLoading(true);
+    const { data: userinfo } = await axios.get(`${baseURL}/usermessages`);
+    if (!userinfo) return;
+    setLoading(false);
+    const myinfo = userinfo?.find(
+      (user) => user?.id === existinguser?.userinfo.id
     );
-  }, [recievedmessages]);
+    setchatHistoryContainingId(myinfo?.ChatHistory);
+    const usersExceptMe = userinfo?.filter(
+      (user) => user?.id !== existinguser?.userinfo.id
+    );
+    setAllusers(usersExceptMe);
+    setfilteredUsers(usersExceptMe);
+    const userconnection = usersExceptMe.find(
+      (user) => user?.id === usertoChat?.id
+    );
+    setconnectionStatus(userconnection?.connectionStatus);
+    return userinfo;
+  };
+  //
   useEffect(() => {
-    gethistory(allusers, chatHistory, setchatHistory);
-    console.log(chatHistory);
+    getusers();
+    gethistory(allusers, chatHistoryContainingId, history, sethistory);
+  }, [recievedmessages, showChatHistory]);
+  //
+  useEffect(() => {
     const filteredusers = allusers?.filter((user) =>
       user?.name.toLowerCase().includes(filteredValue)
     );
+
+    setfilteredChatHistory(history);
+    const filteredchathistory = history?.filter((user) =>
+      user?.name.toLowerCase().includes(filteredValue)
+    );
+    setfilteredChatHistory(filteredchathistory);
     setfilteredUsers(filteredusers);
 
     setuserHistoryAtProfile(filteredusers);
@@ -147,6 +164,7 @@ function Searchcontainer() {
             setchatSettings={setchatSettings}
             showAccountSetting={showAccountSetting}
             setshowAccountSetting={setshowAccountSetting}
+            socketInstance={socketInstance}
           />
         )}
 
@@ -154,29 +172,23 @@ function Searchcontainer() {
           <div className="user-box">
             {Loading ? (
               <Spinner bg={"white"} />
-            ) : showChatHistory.length ? (
-              filteredUsers?.map((users, i) => (
+            ) : showChatHistory ? (
+              filteredChatHistory?.map((users, i) => (
                 <History
-                  i={i}
-                  users={users}
-                  existinguser={existinguser}
+                  key={i}
                   getUserById={getUserById}
-                  setrecievedmessages={setrecievedmessages}
-                  setDBmessages={setDBmessages}
-                  setNewUser={setNewUser}
-                  socketInstance={socketInstance}
+                  users={users}
+                  darkMode={darkMode}
                 />
               ))
             ) : (
               allusers &&
               filteredUsers?.map((users, i) => (
                 <AllUsers
-                  i={i}
-                  existinguser={existinguser}
+                  key={i}
                   getUserById={getUserById}
                   users={users}
-                  handleDeletePop={handleDeletePop}
-                  showDeletePopup={showDeletePopup}
+                  darkMode={darkMode}
                 />
               ))
             )}

@@ -1,32 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography, Avatar, Button } from "@material-ui/core";
 import "./search.scss";
 import { MoreVert } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
-function AllUsers({
-  i,
-  existinguser,
-  getUserById,
-  users,
-  handleDeletePop,
-  showDeletePopup,
-}) {
+function AllUsers({ getUserById, users, darkMode }) {
+  const usersToFilter = JSON.parse(sessionStorage.getItem("newuser"));
+  const [showDeletePopup, setshowDeletePopup] = useState(false);
+  const handleDeletePop = () => setshowDeletePopup((prevValue) => !prevValue);
+  const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
+
+  const selectedUser = {
+    pointerEvents: usersToFilter?.id === users.id ? "none" : "all",
+    backgroundColor:
+      usersToFilter?.id === users.id
+        ? `${darkMode ? "rgba(35, 35, 36, 0.3)" : "rgba(68, 129, 235,0.7)"}`
+        : "",
+    filter: usersToFilter?.id === users.id && "blur(1px)",
+  };
+
   return (
-    <div key={i} className="message_box">
+    <div className="message_box" style={selectedUser}>
       <Link
         to={`/chat/${existinguser && existinguser?.userinfo?.name}`}
         style={{ textDecoration: "none" }}
       >
         <Button onClick={() => getUserById(users.id)} style={{ width: "100%" }}>
           <div className="user-image">
-            <div
-              className="active_sign"
-              style={{
-                display:
-                  users?.connectionStatus === "offline" ? "none" : "block",
-              }}
-            ></div>
+            {users?.connectionStatus === "online" &&
+              usersToFilter?.id !== users.id && (
+                <div className="active_sign"></div>
+              )}
             <Avatar src={users?.imagUrl} />
           </div>
           <div className="latest_activity">
@@ -44,7 +48,6 @@ function AllUsers({
         >
           <Typography variant="caption">Delete</Typography>
         </div>
-        <Typography variant="caption">1m</Typography>
       </div>
     </div>
   );

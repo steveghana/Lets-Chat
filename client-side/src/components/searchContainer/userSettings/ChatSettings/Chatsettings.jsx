@@ -1,12 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
-import FileBase from "react-file-base64";
-import { UserContext } from "../../../usercontext";
-import { Avatar, Grid, Typography } from "@material-ui/core";
-import { WallpaperOutlined, CloseOutlined } from "@material-ui/icons";
+import React, { useState } from "react";
+import { Grid, Typography } from "@material-ui/core";
+import { WallpaperOutlined, InsertCommentOutlined } from "@material-ui/icons";
 import Wallpaper from "./Wallpaper";
+import ClearChatConformation from "./ClearChatConformation";
 import "./CS.scss";
 function Chatsettings() {
   const [wallpapersettings, setwallpapersettings] = useState(false);
+  const [showconfirmationPopup, setshowconfirmationPopup] = useState(false);
   return (
     <Grid item lg={12} md={3} className="Cs_container">
       {wallpapersettings ? (
@@ -17,6 +17,18 @@ function Chatsettings() {
         <Typography>WallPaper</Typography>
       </div>
 
+      <div
+        className="message_box"
+        onClick={() => setshowconfirmationPopup(true)}
+      >
+        <InsertCommentOutlined />
+        <Typography>Clear Chat</Typography>
+      </div>
+      {showconfirmationPopup ? (
+        <ClearChatConformation
+          setshowconfirmationPopup={setshowconfirmationPopup}
+        />
+      ) : null}
       <div className="message_box">
         <Typography>Font Size</Typography>
       </div>

@@ -32,6 +32,7 @@ function App() {
   const [darkMode, setdarkMode] = useState(false);
   const [wallpaper, setwallpaper] = useState("");
   const [toggleMobileNav, settoggleMobileNav] = useState(false);
+  const [allMessages, setallMessages] = useState([]);
 
   return (
     <UserContext.Provider
@@ -73,6 +74,8 @@ function App() {
         setshowmbileNav,
         showSettings,
         setshowSettings,
+        allMessages,
+        setallMessages,
       }}
     >
       <div>

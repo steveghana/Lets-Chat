@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { HomeOutlined, SortOutlined } from "@material-ui/icons";
 import { Grid, useMediaQuery } from "@material-ui/core";
+import { Facebook, YouTube, Instagram, Twitter } from "@material-ui/icons";
 import { UserContext } from "../usercontext";
 import "./toggle.scss";
 function Togglemenu() {
@@ -41,19 +42,22 @@ function Togglemenu() {
           }}
         >
           <div className="icon">
-            <HomeOutlined />
+            <Facebook />
           </div>
         </div>
       )}
 
       <div className="icon">
-        <HomeOutlined />
+        <Instagram />
       </div>
       <div className="icon">
-        <HomeOutlined />
+        <Twitter />
       </div>
       <div className="icon">
-        <HomeOutlined />
+        <YouTube />
+      </div>
+      <div className="icon">
+        <YouTube />
       </div>
     </Grid>
   );

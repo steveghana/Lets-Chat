@@ -1,19 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { userJoining, getusertyping, getmessages } from "../ExternalFunction.";
-
 import io from "socket.io-client";
 import Mobilenav from "../mobileNav/Mobilenav";
 import ChatBox from "./ChatBox";
 import { Typography, Grid } from "@material-ui/core";
 import { UserContext } from "../usercontext";
 import MessageSubmit from "./MessageSubmit";
-import wall from "../assets/scattered-forcefields.svg";
-
+import SVG from "./SVG";
 import ChatAppbar from "./ChatAppbar";
 import "./chat.scss";
 let socket;
 function Chat() {
   const {
+    setdarkMode,
     toggleMobileNav,
     darkMode,
     setsocketInstance,
@@ -30,6 +29,7 @@ function Chat() {
   const initialState = {
     message: "",
   };
+
   const [messagesSent, setmessagesSent] = useState(initialState);
   const [sentmessage, setsentmessage] = useState([]);
   const [userTyping, setuserTyping] = useState(null);
@@ -37,7 +37,6 @@ function Chat() {
   const usertochat = JSON.parse(sessionStorage.getItem("newuser"));
   const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
   const Img = JSON.parse(sessionStorage.getItem("wallpaper"));
-
   useEffect(() => {
     const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
     const Enpoint = "http://localhost:5000";
@@ -52,7 +51,7 @@ function Chat() {
       socket
     );
     return () => {
-      socket.emit("userleft", existinguser.userinfo.id);
+      socket.emit("userleft", existinguser?.userinfo.id);
       socket.off();
     };
   }, [newuser]);
@@ -93,7 +92,12 @@ function Chat() {
   return (
     <Grid item sm={11} md={7} xs={10} className="chat_container">
       <Mobilenav />
-      <ChatAppbar userTyping={userTyping} showusertyping={showusertyping} />
+      <ChatAppbar
+        userTyping={userTyping}
+        showusertyping={showusertyping}
+        darkMode={darkMode}
+        setdarkMode={setdarkMode}
+      />
 
       <div
         className="chat_box_wrapper"
@@ -104,7 +108,11 @@ function Chat() {
       >
         <div className="chat_box_container" style={{ position: "relative" }}>
           <div className="bgimage">
-            <img src={Img ? Img.img : wall} alt="" />
+            {Img ? (
+              <img src={Img.img} alt="CustomImage" />
+            ) : (
+              <SVG darkMode={darkMode} />
+            )}
           </div>
           {welcomeMessage && welcomeMessage.user === "subscriber" ? (
             <div
@@ -128,12 +136,14 @@ function Chat() {
           <ChatBox
             DBmessages={DBmessages}
             recievedmessages={recievedmessages}
+            darkMode={darkMode}
           />
         </div>
         <MessageSubmit
           messagesSent={messagesSent}
           setrecievedmessages={setrecievedmessages}
           existinguser={existinguser}
+          darkMode={{ darkMode }}
           setsentmessage={setsentmessage}
           sentmessage={sentmessage}
           socket={socket}

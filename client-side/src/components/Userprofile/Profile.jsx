@@ -4,16 +4,17 @@ import {
   Facebook,
   NotificationsNoneRounded,
   ArrowDropDownOutlined,
+  MailRounded,
 } from "@material-ui/icons";
 import "./profile.scss";
 import { UserContext } from "../usercontext";
-import { Typography, Grid, Avatar } from "@material-ui/core";
+import { Typography, Grid, Avatar, Badge } from "@material-ui/core";
 function Profile() {
   const usertoChat = JSON.parse(sessionStorage.getItem("newuser"));
-  const { darkMode, connectionStatus, userHistoryAtProfile } =
-    useContext(UserContext);
+  const { allMessages, darkMode, connectionStatus } = useContext(UserContext);
+
   const border = `1px solid ${darkMode ? "#525c6f" : "#4481eb"}`;
-  console.log(userHistoryAtProfile);
+
   return (
     usertoChat && (
       <Grid
@@ -33,10 +34,12 @@ function Profile() {
               color={darkMode ? "disabled" : "primary"}
             />
           </div>
-          <div className="user_dropdown" style={{ border }}>
-            <Typography variant="body2">{usertoChat?.name}</Typography>
-            <ArrowDropDownOutlined />
-          </div>
+          <Badge
+            badgeContent={allMessages ? allMessages.length : 0}
+            color="secondary"
+          >
+            <MailRounded color={darkMode ? "action" : "primary"} />
+          </Badge>
         </div>
         <div className="social_toggle">
           <Facebook />

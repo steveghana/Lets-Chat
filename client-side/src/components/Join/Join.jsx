@@ -32,20 +32,29 @@ function Join() {
   };
   const handlesigninSubmit = async (e) => {
     e.preventDefault();
-    signInAuth(signInuser, signin);
-    const { data } = await axios.post(`${baseUrl}/signin`, {
-      phone: signInuser.phone,
-    });
-    if (data.error) signin.current.innerText = "User doesn't exist";
-    setserverError(data.eror);
-    if (data.userexist) {
-      sessionStorage.clear();
-      sessionStorage.setItem(
-        "userprofile",
-        JSON.stringify({ userinfo: data?.userexist, new: true })
-      );
-      setsignInuser({ ...signInuser, signInuser: "" });
-      history.push(`/chat/${data?.userexist.name}`);
+    if (signInuser.phone.length === 0) {
+      signin.current.innerText = "Please enter your phone Number";
+    }
+    if (isNaN(signInuser.phone)) {
+      signin.current.innerText = "Please enter a valid phone Number";
+    }
+    if (signInuser.phone.length > 1 && signInuser.phone.length < 10) {
+      signin.current.innerText = "Please enter a valid phone number";
+    } else {
+      const { data } = await axios.post(`${baseUrl}/signin`, {
+        phone: signInuser.phone,
+      });
+      if (data.error) signin.current.innerText = "User doesn't exist";
+      setserverError(data.eror);
+      if (data.userexist) {
+        sessionStorage.clear();
+        sessionStorage.setItem(
+          "userprofile",
+          JSON.stringify({ userinfo: data?.userexist, new: true })
+        );
+        setsignInuser({ ...signInuser, signInuser: "" });
+        history.push(`/chat/${data?.userexist.name}`);
+      }
     }
   };
 

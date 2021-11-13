@@ -84,13 +84,16 @@ io.on("connection", (socket) => {
   socket.on("userleft", (userid) => {
     setusersOffline(userid);
   });
-  // socket.on('clearChat',(id)=>{ To Do
-  //   clearChat(id)
-  // })
+  //
+  socket.on("clearchat", (id) => {
+    clearChat(id).then((data) => {
+      socket.emit("chatcleared", data);
+    });
+  });
   socket.on("sendMessage", (messages) => {
     const { message, otheruserId, id, time } = messages;
     const myinfo = getUser(id);
-    !myinfo && console.log("no user was found");
+    if (!myinfo) return;
     postOtherUsersMessagesOffline(otheruserId, messages);
     getmessages(myinfo.id, message, myinfo, otheruserId, time);
     socket.to(room).emit("incomingAndOutgoingMessages", {
