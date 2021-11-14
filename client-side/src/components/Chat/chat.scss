@@ -113,9 +113,6 @@
         margin: 0 auto;
       }
       .chat_box {
-        // display: none;
-        // flex-direction: column;
-        // // position: relative;
         gap: 1rem;
         overflow-y: scroll;
       }
@@ -145,9 +142,6 @@
           align-items: center;
           width: 40px;
           height: 40px;
-          :first-child {
-            // color: #4481eb;
-          }
         }
         .anchor {
           border: 1px solid #4481eb;
@@ -201,18 +195,16 @@
   .chat_box_container {
     flex: 0.6;
     flex-grow: 1;
-    background-color: lawngreen;
   }
 }
 @media only screen and (max-width: 700px) {
   .chat_box_container {
-    flex: 0.7;
+    width: 100%;
     flex-grow: 1;
   }
 }
 @media only screen and (max-width: 500px) {
   .chat_box_container {
-    // flex: 0.9;
     width: 100%;
     height: inherit;
     flex-grow: 1;

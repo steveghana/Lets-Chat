@@ -6,15 +6,14 @@ function TemporalMsgPopUp() {
   const existinguser = JSON.parse(sessionStorage.getItem("userprofile"));
   const [popMessage, setpopMessage] = useState("");
   const userTochat = JSON.parse(sessionStorage.getItem("newuser"));
-  const { darkMode, recievedmessages } = useContext(UserContext);
+  const { darkmode, recievedmessages } = useContext(UserContext);
   useEffect(() => {
     popup.current.style.transform = "translateY(-120%)";
     const filteredPopup = recievedmessages.filter(
       (message) =>
-        message.otheruserId !== userTochat.id &&
-        message.myuserId === existinguser.userinfo.id
+        message?.otheruserId !== userTochat?.id &&
+        message?.myuserId === existinguser?.userinfo.id
     );
-    console.log(recievedmessages);
     setpopMessage(
       filteredPopup.length > 1
         ? filteredPopup[filteredPopup.length - 1]
@@ -27,7 +26,7 @@ function TemporalMsgPopUp() {
       }, 2000);
     }
   }, [recievedmessages]);
-  const toggleDark = darkMode
+  const toggleDark = darkmode
     ? "#232a39"
     : "linear-gradient(-45deg, #4481eb 0%, #04befe 100%)";
   return (

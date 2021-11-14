@@ -22,7 +22,7 @@ function Searchcontainer() {
     setDBmessages,
     setNewUser,
     showSettings,
-    darkMode,
+    darkmode,
     setuserHistoryAtProfile,
   } = useContext(UserContext);
   const isMobile = useMediaQuery("(max-width:700px)");
@@ -79,12 +79,14 @@ function Searchcontainer() {
   //
   useEffect(() => {
     const filteredusers = allusers?.filter((user) =>
-      user?.name.toLowerCase().includes(filteredValue)
+    user?.firstname.toLowerCase().includes(filteredValue) || 
+    user?.secondname.toLowerCase().includes(filteredValue) 
     );
 
     setfilteredChatHistory(history);
     const filteredchathistory = history?.filter((user) =>
-      user?.name.toLowerCase().includes(filteredValue)
+      user?.firstname.toLowerCase().includes(filteredValue) || 
+      user?.secondname.toLowerCase().includes(filteredValue) 
     );
     setfilteredChatHistory(filteredchathistory);
     setfilteredUsers(filteredusers);
@@ -92,7 +94,7 @@ function Searchcontainer() {
     setuserHistoryAtProfile(filteredusers);
   }, [filteredValue, showChatHistory, allusers]);
 
-  const toggleDark = darkMode
+  const toggleDark = darkmode
     ? "#232a39"
     : "linear-gradient(-45deg, #4481eb 0%, #04befe 100%)";
   return (
@@ -110,14 +112,14 @@ function Searchcontainer() {
       <div
         className="search_icon_container"
         style={{
-          borderBottom: darkMode && "1px solid #525c6f",
+          borderBottom: darkmode && "1px solid #525c6f",
         }}
       >
         <div
           className="search_box"
           style={{
             background: toggleDark,
-            border: darkMode && "1px solid #525c6f",
+            border: darkmode && "1px solid #525c6f",
           }}
         >
           <SearchOutlined style={{ color: "white" }} />
@@ -178,7 +180,7 @@ function Searchcontainer() {
                   key={i}
                   getUserById={getUserById}
                   users={users}
-                  darkMode={darkMode}
+                  darkmode={darkmode}
                 />
               ))
             ) : (
@@ -188,7 +190,7 @@ function Searchcontainer() {
                   key={i}
                   getUserById={getUserById}
                   users={users}
-                  darkMode={darkMode}
+                  darkmode={darkmode}
                 />
               ))
             )}

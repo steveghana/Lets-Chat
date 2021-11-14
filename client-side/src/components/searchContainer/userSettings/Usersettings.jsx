@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Typography, Grid, Avatar } from "@material-ui/core";
 import {
   InsertCommentOutlined,
@@ -27,7 +27,7 @@ function Usersettings({
         </div>
         <div className="latest_activity">
           <Typography variant="body2">
-            <strong>{existinguser?.userinfo.name}</strong>
+            <strong>{`${existinguser?.userinfo.firstname} ${existinguser?.userinfo.secondname}`}</strong>
           </Typography>
           <Typography
             variant="overline"
@@ -80,7 +80,7 @@ function Usersettings({
             className="message_box"
             onClick={() => {
               setshowArrow(true);
-              setshowNotification(true);
+              
             }}
           >
             <NotificationsOutlined />

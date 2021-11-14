@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
-import { HomeOutlined, SortOutlined } from "@material-ui/icons";
+import {  SortOutlined } from "@material-ui/icons";
 import { Grid, useMediaQuery } from "@material-ui/core";
 import { Facebook, YouTube, Instagram, Twitter } from "@material-ui/icons";
+import Logo from '../assets/logo.png'
 import { UserContext } from "../usercontext";
 import "./toggle.scss";
 function Togglemenu() {
-  const isMobile = useMediaQuery("(max-width:700px)");
-  const { darkMode, setshowmbileNav, settoggleMobileNav } =
+  const isMobile = useMediaQuery("(max-width:1000px)");
+  const { darkmode, setshowmbileNav, settoggleMobileNav } =
     useContext(UserContext);
 
   return (
@@ -18,10 +19,10 @@ function Togglemenu() {
       xs={2}
       className="togglemenu_container"
       style={{
-        background: darkMode
+        background: darkmode
           ? "#18202f"
           : "linear-gradient(-45deg, #4481eb 0%, #04befe 100%)",
-        borderRight: `1px solid ${darkMode ? "#525c6f" : "white"}`,
+        borderRight: `1px solid ${darkmode ? "#525c6f" : "white"}`,
       }}
     >
       {isMobile ? (
@@ -38,11 +39,11 @@ function Togglemenu() {
         <div
           className="icon1"
           style={{
-            borderBottom: darkMode && "1px solid #525c6f",
+            borderBottom: darkmode && "1px solid #525c6f",
           }}
         >
           <div className="icon">
-            <Facebook />
+           <img src={Logo} alt="logo" style={{ width:50, height:50}}/>
           </div>
         </div>
       )}
@@ -54,7 +55,7 @@ function Togglemenu() {
         <Twitter />
       </div>
       <div className="icon">
-        <YouTube />
+      <Facebook />
       </div>
       <div className="icon">
         <YouTube />

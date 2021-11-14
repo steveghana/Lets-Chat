@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { userJoining, getusertyping, getmessages } from "../ExternalFunction.";
 import io from "socket.io-client";
 import Mobilenav from "../mobileNav/Mobilenav";
 import ChatBox from "./ChatBox";
-import { Typography, Grid } from "@material-ui/core";
+import { Typography, Grid, useMediaQuery } from "@material-ui/core";
 import { UserContext } from "../usercontext";
 import MessageSubmit from "./MessageSubmit";
 import SVG from "./SVG";
@@ -13,8 +13,9 @@ let socket;
 function Chat() {
   const {
     setdarkMode,
+    wallpaper,
     toggleMobileNav,
-    darkMode,
+    darkmode,
     setsocketInstance,
     DBmessages,
     setDBmessages,
@@ -36,7 +37,8 @@ function Chat() {
   const [showusertyping, setshowusertyping] = useState(false);
   const usertochat = JSON.parse(sessionStorage.getItem("newuser"));
   const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
-  const Img = JSON.parse(sessionStorage.getItem("wallpaper"));
+  const [Img, setImg] = useState("");
+  const isMobile = useMediaQuery("(max-width:700px)");
   useEffect(() => {
     const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
     const Enpoint = "http://localhost:5000";
@@ -51,10 +53,15 @@ function Chat() {
       socket
     );
     return () => {
-      socket.emit("userleft", existinguser?.userinfo.id);
+      existinguser && socket.emit("disconnection", existinguser?.userinfo.id);
       socket.off();
     };
   }, [newuser]);
+
+  useEffect(() => {
+    const img = JSON.parse(sessionStorage.getItem("wallpaper"));
+    setImg(img);
+  }, [wallpaper]);
 
   useEffect(() => {
     socket.on("incomingAndOutgoingMessages", (message) => {
@@ -95,15 +102,15 @@ function Chat() {
       <ChatAppbar
         userTyping={userTyping}
         showusertyping={showusertyping}
-        darkMode={darkMode}
+        darkmode={darkmode}
         setdarkMode={setdarkMode}
       />
 
       <div
         className="chat_box_wrapper"
         style={{
-          filter: `blur(${toggleMobileNav ? "20px" : "0px"}  )`,
-          pointerEvents: `${toggleMobileNav ? "none" : "all"}`,
+          filter: `blur(${toggleMobileNav && isMobile ? "20px" : "0px"}  )`,
+          pointerEvents: `${toggleMobileNav && isMobile ? "none" : "all"}`,
         }}
       >
         <div className="chat_box_container" style={{ position: "relative" }}>
@@ -111,13 +118,13 @@ function Chat() {
             {Img ? (
               <img src={Img.img} alt="CustomImage" />
             ) : (
-              <SVG darkMode={darkMode} />
+              <SVG darkmode={darkmode} />
             )}
           </div>
           {welcomeMessage && welcomeMessage.user === "subscriber" ? (
             <div
               className="welcome"
-              style={{ background: darkMode && "#232a39" }}
+              style={{ background: darkmode && "#232a39" }}
             >
               <Typography variant="caption">
                 {welcomeMessage?.message}
@@ -127,7 +134,7 @@ function Chat() {
             <div
               className="welcome user"
               style={{
-                background: darkMode && "#232a39",
+                background: darkmode && "#232a39",
               }}
             >
               <Typography variant="caption">{welcomeMessage?.text}</Typography>
@@ -136,14 +143,14 @@ function Chat() {
           <ChatBox
             DBmessages={DBmessages}
             recievedmessages={recievedmessages}
-            darkMode={darkMode}
+            darkmode={darkmode}
           />
         </div>
         <MessageSubmit
           messagesSent={messagesSent}
           setrecievedmessages={setrecievedmessages}
           existinguser={existinguser}
-          darkMode={{ darkMode }}
+          darkmode={{ darkmode }}
           setsentmessage={setsentmessage}
           sentmessage={sentmessage}
           socket={socket}

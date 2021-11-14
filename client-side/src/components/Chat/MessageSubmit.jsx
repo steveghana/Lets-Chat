@@ -6,10 +6,9 @@ import {
   SendOutlined,
 } from "@material-ui/icons";
 import "./chat.scss";
-import { handleSubmit } from "../ExternalFunction.";
 function MessageSubmit({
   messagesSent,
-  darkMode,
+  darkmode,
   setrecievedmessages,
   existinguser,
   setsentmessage,
@@ -20,11 +19,11 @@ function MessageSubmit({
   recievedmessages,
   setmessagesSent,
 }) {
-  // const {darkMode} = darkMode
+  // const {darkmode} = darkmode
   const usertochat = JSON.parse(sessionStorage.getItem("newuser"));
-  const toggleColor = darkMode.darkMode ? "disabled" : "primary";
+  const toggleColor = darkmode.darkmode ? "disabled" : "primary";
   const toggleStyle = {
-    border: `1px solid ${darkMode.darkMode ? "#525c6f" : "#4481eb"}`,
+    border: `1px solid ${darkmode.darkmode ? "#525c6f" : "#4481eb"}`,
   };
   const handleChange = (e) => {
     socket.emit("typing", existinguser.userinfo.id);
@@ -76,7 +75,7 @@ function MessageSubmit({
             <div
               className="send_icon"
               style={{
-                background: darkMode.darkMode
+                background: darkmode.darkmode
                   ? "#18202f"
                   : "linear-gradient(-45deg, #4481eb 0%, #04befe 100%)",
               }}

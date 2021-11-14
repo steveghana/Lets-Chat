@@ -1,26 +1,28 @@
-import React from "react";
-import { Typography, Switch } from "@material-ui/core";
-
+import React, { useContext } from "react";
+import { Typography, Switch, useMediaQuery, Badge } from "@material-ui/core";
+import { MailRounded } from "@material-ui/icons";
+import { UserContext } from "../usercontext";
 import {
   StarOutline,
   PhoneOutlined,
   CameraEnhanceOutlined,
-  SendOutlined,
 } from "@material-ui/icons";
 import TemporalMsgPopUp from "./TemporalMsgPopUp";
 import "./chat.scss";
 
-function ChatAppbar({ userTyping, showusertyping, darkMode, setdarkMode }) {
-  const toggleColor = darkMode ? "disabled" : "primary";
+function ChatAppbar({ userTyping, showusertyping, darkmode, setdarkMode }) {
+  const { allMessages } = useContext(UserContext);
+  const isMobile = useMediaQuery("(max-width:1000px)");
+  const toggleColor = darkmode ? "disabled" : "primary";
   const toggleStyle = {
-    border: `1px solid ${darkMode ? "#525c6f" : "#4481eb"}`,
+    border: `1px solid ${darkmode ? "#525c6f" : "#4481eb"}`,
   };
   const handleSwitch = () => setdarkMode((prev) => !prev);
   return (
     <div
       className="chat_appbar"
       style={{
-        borderBottom: darkMode && "1px solid #525c6f",
+        borderBottom: darkmode && "1px solid #525c6f",
       }}
     >
       <TemporalMsgPopUp />
@@ -30,7 +32,7 @@ function ChatAppbar({ userTyping, showusertyping, darkMode, setdarkMode }) {
           visibility: showusertyping ? "visible" : "hidden",
           transition: "400ms ease-in",
         }}
-      >{`${userTyping?.name} is Typing ...`}</Typography>
+      >{`${userTyping?.firstname} is Typing ...`}</Typography>
       <div
         className="switch"
         style={{
@@ -39,10 +41,10 @@ function ChatAppbar({ userTyping, showusertyping, darkMode, setdarkMode }) {
           alignItems: "center",
         }}
       >
-        <Typography>{darkMode ? "DarkMode" : "LightMode"}</Typography>
+        <Typography>{darkmode ? "DarkMode" : "LightMode"}</Typography>
         <Switch
           color="primary"
-          style={{ color: darkMode ? "black" : "blue" }}
+          style={{ color: darkmode ? "black" : "blue" }}
           onClick={handleSwitch}
         />
       </div>
@@ -53,9 +55,18 @@ function ChatAppbar({ userTyping, showusertyping, darkMode, setdarkMode }) {
         <div className="icon" style={toggleStyle}>
           <PhoneOutlined color={toggleColor} />
         </div>
-        <div className="icon" style={toggleStyle}>
-          <CameraEnhanceOutlined color={toggleColor} />
-        </div>
+        {isMobile ? (
+          <Badge
+            badgeContent={allMessages ? allMessages.length : 0}
+            color="secondary"
+          >
+            <MailRounded color={darkmode ? "action" : "primary"} />
+          </Badge>
+        ) : (
+          <div className="icon" style={toggleStyle}>
+            <CameraEnhanceOutlined color={toggleColor} />
+          </div>
+        )}
       </div>
     </div>
   );

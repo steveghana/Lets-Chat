@@ -30,7 +30,7 @@ function Popup({
   const accountDeleted = async () => {
     const id = existinguser.userinfo.id;
     setisLoading(true);
-    console.log(id);
+    
     const { data } = await axios.post(`${baseUrl}/delete/${id}`);
     data && setisLoading(false);
     if (data.error) {
@@ -76,6 +76,7 @@ function Popup({
       });
     }
   };
+  // const {firstname, secondname, phone, language, country}= existinguser?.userinfo
   if (changenum) {
     return (
       <div className="popup" style={{ textAlign: "center" }}>
@@ -212,9 +213,15 @@ function Popup({
           >
             <div className="info">
               <span>
-                <strong>Name:</strong>
+                <strong>Firstname:</strong>
               </span>
-              <span>{existinguser?.userinfo?.name}</span>
+              <span>{existinguser?.userinfo?.firstname}</span>
+            </div>
+            <div className="info">
+              <span>
+                <strong>Secondname:</strong>
+              </span>
+              <span>{existinguser?.userinfo?.secondname}</span>
             </div>
             <div className="info">
               <span>

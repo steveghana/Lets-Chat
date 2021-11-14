@@ -1,14 +1,7 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext} from "react";
 import { Link, useHistory } from "react-router-dom";
-import {
-  Typography,
-  Grid,
-  ExpansionPanel,
-  AccordionSummary,
-  ExpandMore,
-  Col,
-  AccordionDetails,
-} from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
+import { handleRefresh } from "../ExternalFunction.";
 import axios from "axios";
 import { PersonAddOutlined } from "@material-ui/icons";
 import { UserContext } from "../usercontext";
@@ -19,7 +12,7 @@ function Inboxcontainer() {
 
   const {
     setallMessages,
-    darkMode,
+    darkmode,
     setshowChatHistory,
     recievedmessages,
     showSettings,
@@ -28,13 +21,6 @@ function Inboxcontainer() {
     socketInstance,
   } = useContext(UserContext);
 
-  const handlerefresh = () => {
-    sessionStorage.clear();
-    socketInstance.emit("userleft", existinguser?.userinfo.id);
-    history.push("/");
-    window.location.reload();
-    setshowInputBox(true);
-  };
   useEffect(() => {
     (async () => {
       const { data: userinfo } = await axios.get(
@@ -49,6 +35,7 @@ function Inboxcontainer() {
       setallMessages(theMessages);
     })();
   }, [existinguser?.userinfo.id, recievedmessages]);
+
   return (
     <Grid
       item
@@ -56,21 +43,21 @@ function Inboxcontainer() {
       md={3}
       className="inbox_container"
       style={{
-        background: darkMode
+        background: darkmode
           ? "#232a39"
           : "linear-gradient(-45deg, #4481eb 0%, #04befe 100%)",
-        borderRight: `1px solid ${darkMode ? "#525c6f" : "white"}`,
+        borderRight: `1px solid ${darkmode ? "#525c6f" : "white"}`,
       }}
     >
       <div
         className="inbox_header"
         style={{
-          borderBottom: darkMode && "1px solid #525c6f",
+          borderBottom: darkmode && "1px solid #525c6f",
         }}
       >
         <Typography variant="body1">Inbox</Typography>
         <div className="add_user_icon">
-          <PersonAddOutlined color={darkMode ? "disabled" : "primary"} />
+          <PersonAddOutlined color={darkmode ? "disabled" : "primary"} />
         </div>
       </div>
 
@@ -100,7 +87,14 @@ function Inboxcontainer() {
       <div className="message_box">
         <Link
           to="/"
-          onClick={handlerefresh}
+          onClick={() =>
+            handleRefresh(
+              socketInstance,
+              existinguser,
+              history,
+              setshowInputBox
+            )
+          }
           style={{ textDecoration: "none", color: "white" }}
         >
           <Typography>Logout</Typography>

@@ -4,7 +4,7 @@ import { UserContext } from "../../../usercontext";
 import { CloseOutlined } from "@material-ui/icons";
 import { Typography, Avatar } from "@material-ui/core";
 function Wallpaper({ setwallpapersettings }) {
-  const { darkMode, wallpaper, setwallpaper } = useContext(UserContext);
+  const { wallpaper, setwallpaper } = useContext(UserContext);
   const Img = JSON.parse(sessionStorage.getItem("wallpaper"));
   useEffect(() => {
     if (wallpaper) {
@@ -28,7 +28,10 @@ function Wallpaper({ setwallpapersettings }) {
           onClick={() => setwallpapersettings((prev) => !prev)}
         />
       </div>
-      <Avatar src={wallpaper} style={{ height: "150px", width: "150px" }} />
+      <div className='wallpaper-img'>
+      <Avatar src={wallpaper || Img?.img || null} style={{ height: "150px", width: "150px" }} />
+
+      </div>
       <div className="file">
         <Typography variant="caption">Select an image</Typography>
         <FileBase

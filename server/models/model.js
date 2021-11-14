@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 const messageModel = mongoose.Schema({
-  name: {
+  firstname: {
+    required: true,
+    type: String,
+  },
+  secondname: {
     required: true,
     type: String,
   },

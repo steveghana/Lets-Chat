@@ -28,7 +28,7 @@ function Signin({
         {" "}
       </Typography>
 
-      <Button onClick={handlesigninSubmit} className="btn solid">
+      <Button onClick={handlesigninSubmit} className="btn solid" style={{color:'white'}}>
         Sign in
       </Button>
       <p className="social-text">Or Sign in with social platforms</p>

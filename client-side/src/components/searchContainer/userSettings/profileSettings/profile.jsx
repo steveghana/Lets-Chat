@@ -1,7 +1,7 @@
 import React from "react";
 
 function NotificationSetting() {
-  return <div>Notificaton Settings</div>;
+  return <div></div>;
 }
 
 export default NotificationSetting;

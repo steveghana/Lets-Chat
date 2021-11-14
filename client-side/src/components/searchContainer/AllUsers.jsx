@@ -4,7 +4,7 @@ import "./search.scss";
 import { MoreVert } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
-function AllUsers({ getUserById, users, darkMode }) {
+function AllUsers({ getUserById, users, darkmode }) {
   const usersToFilter = JSON.parse(sessionStorage.getItem("newuser"));
   const [showDeletePopup, setshowDeletePopup] = useState(false);
   const handleDeletePop = () => setshowDeletePopup((prevValue) => !prevValue);
@@ -14,7 +14,7 @@ function AllUsers({ getUserById, users, darkMode }) {
     pointerEvents: usersToFilter?.id === users.id ? "none" : "all",
     backgroundColor:
       usersToFilter?.id === users.id
-        ? `${darkMode ? "rgba(35, 35, 36, 0.3)" : "rgba(68, 129, 235,0.7)"}`
+        ? `${darkmode ? "rgba(35, 35, 36, 0.3)" : "rgba(68, 129, 235,0.7)"}`
         : "",
     filter: usersToFilter?.id === users.id && "blur(1px)",
   };
@@ -22,7 +22,7 @@ function AllUsers({ getUserById, users, darkMode }) {
   return (
     <div className="message_box" style={selectedUser}>
       <Link
-        to={`/chat/${existinguser && existinguser?.userinfo?.name}`}
+        to={`/chat/${existinguser && existinguser?.userinfo?.firstname}`}
         style={{ textDecoration: "none" }}
       >
         <Button onClick={() => getUserById(users.id)} style={{ width: "100%" }}>
@@ -35,7 +35,7 @@ function AllUsers({ getUserById, users, darkMode }) {
           </div>
           <div className="latest_activity">
             <Typography variant="body2" style={{ color: "white" }}>
-              <strong>{users?.name}</strong>
+              <strong>{`${users?.firstname} ${users?.secondname}`}</strong>
             </Typography>
           </div>
         </Button>

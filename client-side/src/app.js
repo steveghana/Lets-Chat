@@ -5,12 +5,12 @@ import { Join } from "./components/exports";
 import { UserContext } from "./components/usercontext";
 function App() {
   const initialState = {
-    name: "",
+    firstname: "",
+    secondname: "",
     phone: "",
     imagUrl: "",
     nickName: "",
     country: "",
-    // Birth: "",
     language: "",
     password: "",
   };
@@ -29,7 +29,7 @@ function App() {
   const [connectionStatus, setconnectionStatus] = useState("");
   const [showmbileNav, setshowmbileNav] = useState(false);
   const [showSettings, setshowSettings] = useState(false);
-  const [darkMode, setdarkMode] = useState(false);
+  const [darkmode, setdarkMode] = useState(false);
   const [wallpaper, setwallpaper] = useState("");
   const [toggleMobileNav, settoggleMobileNav] = useState(false);
   const [allMessages, setallMessages] = useState([]);
@@ -43,7 +43,7 @@ function App() {
         settoggleMobileNav,
         wallpaper,
         setwallpaper,
-        darkMode,
+        darkmode,
         setdarkMode,
         connectionStatus,
         setconnectionStatus,
@@ -88,9 +88,7 @@ function App() {
           <Route path="/chat/:username">
             <Home />
           </Route>
-          <Route path="/chat/:otheruser/:user">
-            <Home />
-          </Route>
+         
         </Switch>
       </div>
     </UserContext.Provider>

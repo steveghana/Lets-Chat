@@ -35,6 +35,7 @@ io.on("connection", (socket) => {
   let userNowActive = [];
   let otherUser;
   socket.on("join", async (users, errorhandler) => {
+     //when user to chat with is selected
     if (users.newuser) {
       const user = getUser(users.existinguser.userinfo.id);
       const userAlreadyActive = userNowActive.find(
@@ -48,18 +49,20 @@ io.on("connection", (socket) => {
       socketid = user.id;
       room = existinguser.phone;
       socket.join(existinguser.phone); //
+       // when a user refreshes or login
     } else if (users.new) {
       const existinguser = getUserFromDB(users.userinfo.id);
       socketid = users.userinfo.id;
       room = existinguser.phone;
       socket.join(existinguser.phone); //
+       //For adding new users
     } else if (!users.new && !users.newuser) {
       socketid = socket.id;
       const { isuser, err } = await addUser({ id: socket.id }, users);
       if (err) return (errorhandler = err);
       socket.emit("welcomingmessage", {
         user: "admin",
-        text: `welcome ${isuser.name}`,
+        text: `welcome ${isuser.firstname} ${isuser.secondname}`,
         userinfo: isuser,
       });
       // socket.to(isuser.phone).emit("notification", {
@@ -97,7 +100,7 @@ io.on("connection", (socket) => {
     postOtherUsersMessagesOffline(otheruserId, messages);
     getmessages(myinfo.id, message, myinfo, otheruserId, time);
     socket.to(room).emit("incomingAndOutgoingMessages", {
-      user: myinfo.name,
+      user: myinfo.firstname,
       userId: myinfo.id,
       message,
       otheruserId,
@@ -114,7 +117,8 @@ io.on("connection", (socket) => {
       }
     }
   });
-  socket.on("disconnect", (id) => {
+  socket.on("disconnection", (id) => {
+    setusersOffline(id);
     console.log("user left");
   });
 });

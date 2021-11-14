@@ -17,9 +17,22 @@ function Signup({ handleSubmit, userinput, handleChange, setuserinput, err }) {
         <i className="fas fa-user"></i>
         <input
           type="text"
-          value={userinput.name}
+          value={userinput.firstname}
           required={true}
-          name="name"
+          name="firstname"
+          placeholder="Enter your name"
+          label="Name"
+          autoComplete="off"
+          onChange={handleChange}
+        />
+      </div>
+      <div className="input-field">
+        <i className="fas fa-user"></i>
+        <input
+          type="text"
+          value={userinput.secondName}
+          required={true}
+          name="secondname"
           placeholder="Enter your name"
           label="Name"
           autoComplete="off"
@@ -48,18 +61,6 @@ function Signup({ handleSubmit, userinput, handleChange, setuserinput, err }) {
           placeholder="Enter your country"
           label="Country"
           variant="outlined"
-          autoComplete="off"
-          onChange={handleChange}
-        />
-      </div>
-      <div className="input-field">
-        <i className="fas fa-user"></i>
-        <input
-          type="date"
-          value={userinput.Birth}
-          required={true}
-          name="Birth"
-          placeholder="Enter your Date of Birth"
           autoComplete="off"
           onChange={handleChange}
         />
@@ -117,22 +118,11 @@ function Signup({ handleSubmit, userinput, handleChange, setuserinput, err }) {
         />
       </div>
       <Button type="submit" className="btn">
-        <Typography>Sign up</Typography>
+        <Typography style={{color:'white'}}>Sign up</Typography>
       </Button>
-      <p className="social-text">Or Sign up with social platforms</p>
+      {/* <p className="social-text">Or Sign up with social platforms</p> */}
       {/* <div className="social-media">
-              <a>
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a>
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a>
-                <i className="fab fa-google"></i>
-              </a>
-              <a>
-                <i className="fab fa-linkedin-in"></i>
-              </a>
+             
             </div> */}
     </form>
   );

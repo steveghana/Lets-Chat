@@ -53,7 +53,8 @@ function Join() {
           JSON.stringify({ userinfo: data?.userexist, new: true })
         );
         setsignInuser({ ...signInuser, signInuser: "" });
-        history.push(`/chat/${data?.userexist.name}`);
+        const {firstname, secondname}  = data?.userexist
+        history.push(`/chat/${firstname}`);
       }
     }
   };
@@ -104,7 +105,7 @@ function Join() {
         <div className="panel left-panel">
           <div className="content">
             <h3>New here ?</h3>
-            <p>If you are new to the family please Sign up!</p>
+            <p>If you are new here please Sign up!</p>
             <button
               className="btn transparent"
               id="sign-up-btn"
@@ -119,7 +120,7 @@ function Join() {
         <div className="panel right-panel">
           <div className="content">
             <h3>One of us ?</h3>
-            <p>If you are alrady part of the family, please sign in!</p>
+            <p>If you are one of us, Please sign in!</p>
             <button
               className="btn transparent"
               id="sign-in-btn"

@@ -1,12 +1,12 @@
 import React from "react";
 import { Avatar, Typography } from "@material-ui/core";
 import "./message.scss";
-function DBmessage({ message, darkMode }) {
+function DBmessage({ message, darkmode }) {
   const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
   const userTochat = JSON.parse(sessionStorage.getItem("newuser"));
-  const toggleDark = darkMode
+  const toggleDark = darkmode
     ? "linear-gradient(-45deg, #ffffff 0%, #bbbbbb 100%)"
-    : "linear-gradient(-45deg, #ffffff 0%, #a6e7fd 100%)";
+    : "white";
   const myid = existinguser?.userinfo.id;
   if (!userTochat) return null;
   return (

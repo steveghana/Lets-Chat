@@ -19,7 +19,7 @@ const postOtherUsersMessagesOffline = async (id, messages) => {
                 user: {
                   Sender: myinfo.id,
                   myId: otheruserId,
-                  name: myinfo.name,
+                  name: myinfo.firstname,
                   phone: myinfo.phone,
                   country: myinfo.country,
                 },
@@ -102,7 +102,8 @@ const addUser = async ({ id }, user) => {
   let err;
   try {
     const {
-      name,
+      firstname,
+      secondname,
       phone,
       nickName,
       country,
@@ -111,11 +112,11 @@ const addUser = async ({ id }, user) => {
       password,
       imagUrl,
     } = user;
-    const trimedName = name.trim().toLowerCase();
     const trimedphone = phone.trim();
     const isuser = {
       id,
-      name,
+      firstname,
+      secondname,
       phone,
       country,
       Birth,
@@ -126,7 +127,8 @@ const addUser = async ({ id }, user) => {
 
     usermessages.push({
       id,
-      name: trimedName,
+      firstname,
+      secondname,
       phone,
       password,
       nickName,
@@ -137,7 +139,8 @@ const addUser = async ({ id }, user) => {
     });
     const newUser = new incomingMessage({
       id,
-      name: trimedName,
+      firstname,
+      secondname,
       phone: trimedphone,
       nickName,
       country,

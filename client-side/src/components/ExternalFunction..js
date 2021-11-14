@@ -9,6 +9,7 @@ export function userJoining(
   userinput,
   socket
 ) {
+  //when user to chat with is selected
   if (usertochat && existinguser) {
     setuserprofile(existinguser);
     socket.emit(
@@ -19,11 +20,13 @@ export function userJoining(
       }
     );
   }
+  // when a user refreshes or login
   if (existinguser) {
     setuserprofile(existinguser);
     socket.emit("join", existinguser, (error) => {
       console.log(error);
     });
+    //For adding new users
   } else {
     sessionStorage.clear();
 
@@ -46,10 +49,6 @@ export const getmessages = async (setDBmessages) => {
   setDBmessages(userinfo);
 };
 
-// export const signInAuth = (signInuser, signin) => {
-
-// };
-
 export const inputSubmitAuth = (
   userinput,
   err,
@@ -57,9 +56,10 @@ export const inputSubmitAuth = (
   setisLoading,
   history
 ) => {
-  if (userinput.name === "") {
-    console.log(userinput.name);
-    err.current.innerText = "Please enter your name";
+  if (userinput.firstname === "") {
+    err.current.innerText = "Please enter your firstname";
+  } else if (userinput.secondname === "") {
+    err.current.innerText = "Please enter your lastname";
   } else if (userinput.phone.length === 0) {
     err.current.innerText = "Please enter your phone Number";
   } else if (isNaN(userinput.phone)) {
@@ -70,7 +70,8 @@ export const inputSubmitAuth = (
   } else {
     seteror("");
     setisLoading(false);
-    history.push(`/chat/${userinput.name}`);
+    // const {firstname, secondname} = userinput
+    history.push(`/chat/${userinput.firstname}`);
   }
 };
 
@@ -92,4 +93,16 @@ export const gethistory = (
       }
     }
   }
+};
+export const handleRefresh = (
+  socketInstance,
+  existinguser,
+  history,
+  setshowInputBox
+) => {
+  sessionStorage.clear();
+  socketInstance.emit("userleft", existinguser?.userinfo.id);
+  history.push("/");
+  window.location.reload();
+  setshowInputBox(true);
 };

@@ -1,6 +1,6 @@
 import React from "react";
 
-const SVG = ({ darkMode }) => (
+const SVG = ({ darkmode }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="100%">
     <defs>
       <linearGradient
@@ -12,8 +12,8 @@ const SVG = ({ darkMode }) => (
         y2="100%"
         gradientTransform="rotate(240)"
       >
-        <stop offset="0" stop-color={darkMode ? "#252323" : "#43b3fd"} />
-        <stop offset="1" stop-color="#ffffff" />
+        <stop offset="0" stopColor={darkmode ? "#252323" : "#43b3fd"} />
+        <stop offset="1" stopColor="#ffffff" />
       </linearGradient>
       <pattern
         patternUnits="userSpaceOnUse"
@@ -24,7 +24,7 @@ const SVG = ({ darkMode }) => (
         y="0"
         viewBox="0 0 1080 900"
       >
-        <g fill-opacity="0.1">
+        <g fillOpacity="0.1">
           <polygon fill="#444" points="90 150 0 300 180 300" />
           <polygon points="90 150 180 0 0 0" />
           <polygon fill="#AAA" points="270 150 360 0 180 0" />

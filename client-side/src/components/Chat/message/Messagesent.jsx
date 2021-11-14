@@ -1,12 +1,12 @@
 import React from "react";
 import { Typography, Avatar } from "@material-ui/core";
 import "./message.scss";
-const Messagesent = ({ messages, darkMode }) => {
+const Messagesent = ({ messages, darkmode }) => {
   const existinguser = JSON.parse(sessionStorage.getItem("userprofile"));
   const { message, userid, time } = messages;
-  const toggleDark = darkMode
+  const toggleDark = darkmode
     ? "linear-gradient(-45deg, #ffffff 0%, #bbbbbb 100%)"
-    : "linear-gradient(-45deg, #ffffff 0%, #a6e7fd 100%)";
+    : "white";
   return (
     existinguser.userinfo.id === userid && (
       <div className="message_sent_container">

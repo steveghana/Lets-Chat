@@ -2,35 +2,30 @@ import React, { useContext } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { useMediaQuery, Typography } from "@material-ui/core";
+import { handleRefresh } from "../ExternalFunction.";
 import { UserContext } from "../usercontext";
 import "./mobile.scss";
 function Mobilenav() {
-  const isMobile = useMediaQuery("(max-width:700px)");
+  const isMobile = useMediaQuery("(max-width:1000px)");
   const smallText = useMediaQuery("(max-width:500px)");
   const history = useHistory();
+  const existinguser = JSON.parse(sessionStorage.getItem("userprofile"));
   const {
-    darkMode,
+    darkmode,
     showmbileNav,
     setshowChatHistory,
-    recievedmessages,
     showSettings,
     setshowSettings,
+    socketInstance,
     setshowInputBox,
   } = useContext(UserContext);
-
-  const handlerefresh = () => {
-    sessionStorage.clear();
-    history.push("/");
-    window.location.reload();
-    setshowInputBox(true);
-  };
 
   return (
     <nav
       style={{
         display: isMobile ? "flex" : "none",
         transform: showmbileNav ? "translateX(0%)" : "translateX(-150%)",
-        background: darkMode
+        background: darkmode
           ? "#232a39"
           : "linear-gradient(-45deg, #4481eb 0%, #04befe 100%)",
       }}
@@ -78,7 +73,14 @@ function Mobilenav() {
           <div className="message_box">
             <Link
               to="/"
-              onClick={handlerefresh}
+              onClick={() =>
+                handleRefresh(
+                  socketInstance,
+                  existinguser,
+                  history,
+                  setshowInputBox
+                )
+              }
               style={{ textDecoration: "none", color: "white" }}
             >
               <Typography variant={smallText ? "caption" : "body2"}>

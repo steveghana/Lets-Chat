@@ -16,7 +16,7 @@ const getchatHistory = async (req, res) => {
 
     res.status(200).send(chathistory);
   } catch (error) {
-    res.status(400).send("something went wrong");
+    res.status(400).json("something went wrong");
     console.log(error);
   }
 };
@@ -27,7 +27,7 @@ const getuserbyid = async (req, res) => {
     const user = await incomingMessage.findOne({ id });
     res.status(200).send(user);
   } catch (error) {
-    res.status(404).send("no user was found");
+    res.status(404).json("no user was found");
     console.log(error);
   }
 };
@@ -52,7 +52,7 @@ const userSigningIn = async (req, res) => {
     if (!userexist) return res.send({ error: "User doesnt exist" });
     return res.status(200).send({ userexist });
   } catch (error) {
-    console.log(error);
+    return res.status(404).send('something went wrong');
   }
 };
 
@@ -77,6 +77,7 @@ const deleteUser = async (req, res) => {
       });
     }
   } catch (error) {
+    res.status(404).json('something went wrong')
     console.log(error);
   }
 };
