@@ -13,7 +13,7 @@ function Popup({
   setaccountDelete,
   setuserInfo,
 }) {
-  const existinguser = JSON.parse(sessionStorage.getItem("userprofile"));
+  const existinguser = JSON.parse(localStorage.getItem("userprofile"));
   const baseUrl = "http://localhost:5000/usermessages";
   const history = useHistory();
   const [newNum, setnewNum] = useState({
@@ -30,14 +30,14 @@ function Popup({
   const accountDeleted = async () => {
     const id = existinguser.userinfo.id;
     setisLoading(true);
-    
+
     const { data } = await axios.post(`${baseUrl}/delete/${id}`);
     data && setisLoading(false);
     if (data.error) {
       setserverFeed({ error: data.error });
     }
     if (data.message) {
-      sessionStorage.clear();
+      localStorage.clear();
       setserverFeed({ message: data.message });
       setTimeout(() => {
         history.push("/");

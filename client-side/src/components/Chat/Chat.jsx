@@ -35,12 +35,12 @@ function Chat() {
   const [sentmessage, setsentmessage] = useState([]);
   const [userTyping, setuserTyping] = useState(null);
   const [showusertyping, setshowusertyping] = useState(false);
-  const usertochat = JSON.parse(sessionStorage.getItem("newuser"));
-  const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
+  const usertochat = JSON.parse(localStorage.getItem("newuser"));
+  const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
   const [Img, setImg] = useState("");
   const isMobile = useMediaQuery("(max-width:700px)");
   useEffect(() => {
-    const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
+    const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
     const Enpoint = "http://localhost:5000";
     socket = io(Enpoint);
     setsocketInstance(socket);
@@ -59,7 +59,7 @@ function Chat() {
   }, [newuser]);
 
   useEffect(() => {
-    const img = JSON.parse(sessionStorage.getItem("wallpaper"));
+    const img = JSON.parse(localStorage.getItem("wallpaper"));
     setImg(img);
   }, [wallpaper]);
 
@@ -81,7 +81,7 @@ function Chat() {
   useEffect(() => {
     socket.on("welcomingmessage", (message) => {
       const { userinfo } = message;
-      sessionStorage.setItem(
+      localStorage.setItem(
         "userprofile",
         JSON.stringify({ userinfo, new: true })
       );

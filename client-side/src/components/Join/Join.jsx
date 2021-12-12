@@ -23,6 +23,7 @@ function Join() {
     password: "",
   });
   const handleChange = (e) => {
+    console.log(userinput)
     e.preventDefault();
     setuserinput({ ...userinput, [e.target.name]: e.target.value });
   };
@@ -47,13 +48,13 @@ function Join() {
       if (data.error) signin.current.innerText = "User doesn't exist";
       setserverError(data.eror);
       if (data.userexist) {
-        sessionStorage.clear();
-        sessionStorage.setItem(
+        localStorage.clear();
+        localStorage.setItem(
           "userprofile",
           JSON.stringify({ userinfo: data?.userexist, new: true })
         );
         setsignInuser({ ...signInuser, signInuser: "" });
-        const {firstname, secondname}  = data?.userexist
+        const { firstname, secondname } = data?.userexist
         history.push(`/chat/${firstname}`);
       }
     }

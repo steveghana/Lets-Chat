@@ -18,7 +18,7 @@ function Usersettings({
   showAccountSetting,
   setshowAccountSetting,
 }) {
-  const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
+  const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
   return (
     <div>
       <div className="profile_box">
@@ -80,7 +80,7 @@ function Usersettings({
             className="message_box"
             onClick={() => {
               setshowArrow(true);
-              
+
             }}
           >
             <NotificationsOutlined />

@@ -16,8 +16,8 @@ const messageModel = mongoose.Schema({
   country: String,
   imagUrl: String,
   Birth: Date,
-  Gender: String,
-  Language: String,
+  gender: String,
+  language: String,
   id: String,
   ChatHistory: [
     {

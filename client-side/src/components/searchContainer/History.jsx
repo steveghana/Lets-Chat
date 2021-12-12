@@ -4,9 +4,9 @@ import "./search.scss";
 import { Link } from "react-router-dom";
 import { Typography, Avatar, Button } from "@material-ui/core";
 function History({ getUserById, users, darkmode }) {
-  const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
+  const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
 
-  const usersToFilter = JSON.parse(sessionStorage.getItem("newuser"));
+  const usersToFilter = JSON.parse(localStorage.getItem("newuser"));
   const selectedUser = {
     pointerEvents: usersToFilter?.id === users.id ? "none" : "all",
     backgroundColor:
@@ -23,9 +23,9 @@ function History({ getUserById, users, darkmode }) {
       (user.user.FromMe === existinguser.userinfo.id &&
         user.user.Reciever === usersToFilter.id)
   );
- 
+
   const { backgroundColor } = selectedUser;
-const {firstname, secondname} = existinguser?.userinfo
+  const { firstname, secondname } = existinguser?.userinfo
   return (
     <div style={selectedUser}>
       <Link

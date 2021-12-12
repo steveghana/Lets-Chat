@@ -5,10 +5,10 @@ import { MoreVert } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 function AllUsers({ getUserById, users, darkmode }) {
-  const usersToFilter = JSON.parse(sessionStorage.getItem("newuser"));
+  const usersToFilter = JSON.parse(localStorage.getItem("newuser"));
   const [showDeletePopup, setshowDeletePopup] = useState(false);
   const handleDeletePop = () => setshowDeletePopup((prevValue) => !prevValue);
-  const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
+  const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
 
   const selectedUser = {
     pointerEvents: usersToFilter?.id === users.id ? "none" : "all",

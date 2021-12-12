@@ -20,7 +20,7 @@ function MessageSubmit({
   setmessagesSent,
 }) {
   // const {darkmode} = darkmode
-  const usertochat = JSON.parse(sessionStorage.getItem("newuser"));
+  const usertochat = JSON.parse(localStorage.getItem("newuser"));
   const toggleColor = darkmode.darkmode ? "disabled" : "primary";
   const toggleStyle = {
     border: `1px solid ${darkmode.darkmode ? "#525c6f" : "#4481eb"}`,

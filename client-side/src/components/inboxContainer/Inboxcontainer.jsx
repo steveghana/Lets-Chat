@@ -1,4 +1,4 @@
-import React, { useEffect, useContext} from "react";
+import React, { useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Typography, Grid } from "@material-ui/core";
 import { handleRefresh } from "../ExternalFunction.";
@@ -8,7 +8,7 @@ import { UserContext } from "../usercontext";
 import "./inbox.scss";
 function Inboxcontainer() {
   const history = useHistory();
-  const existinguser = JSON.parse(sessionStorage.getItem("userprofile"));
+  const existinguser = JSON.parse(localStorage.getItem("userprofile"));
 
   const {
     setallMessages,

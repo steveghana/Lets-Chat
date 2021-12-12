@@ -3,9 +3,9 @@ import { Typography, Avatar } from "@material-ui/core";
 import "./message.scss";
 
 const Messagerecieved = ({ messages }) => {
-  
-  const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
-  const userToChat = JSON.parse(sessionStorage.getItem("newuser"));
+
+  const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
+  const userToChat = JSON.parse(localStorage.getItem("newuser"));
   const { message, time, otheruserId, myuserId } = messages;
 
   return (

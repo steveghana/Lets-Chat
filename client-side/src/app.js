@@ -13,6 +13,7 @@ function App() {
     country: "",
     language: "",
     password: "",
+    gender: "",
   };
   const [DBmessages, setDBmessages] = useState(null);
   const [welcomeMessage, setwelcomeMessage] = useState("");
@@ -88,7 +89,6 @@ function App() {
           <Route path="/chat/:username">
             <Home />
           </Route>
-         
         </Switch>
       </div>
     </UserContext.Provider>

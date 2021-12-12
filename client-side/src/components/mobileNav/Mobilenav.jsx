@@ -9,7 +9,7 @@ function Mobilenav() {
   const isMobile = useMediaQuery("(max-width:1000px)");
   const smallText = useMediaQuery("(max-width:500px)");
   const history = useHistory();
-  const existinguser = JSON.parse(sessionStorage.getItem("userprofile"));
+  const existinguser = JSON.parse(localStorage.getItem("userprofile"));
   const {
     darkmode,
     showmbileNav,

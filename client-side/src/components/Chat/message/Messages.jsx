@@ -5,7 +5,7 @@ import Messagesent from "./Messagesent";
 import "./message.scss";
 function Message({ messages, darkmode }) {
   let isSendbyUser = false;
-  const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
+  const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
   if (messages.userid && existinguser.userinfo.id === messages.userid)
     isSendbyUser = true;
   return isSendbyUser ? (

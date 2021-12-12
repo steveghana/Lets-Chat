@@ -1,4 +1,5 @@
 const express = require("express");
+const dotenv = require("dotenv");
 const socketio = require("socket.io");
 const http = require("http");
 const mongoose = require("mongoose");
@@ -18,11 +19,13 @@ const {
   getuserTyping,
   clearChat,
 } = require("./utilities/utilis");
+dotenv.config();
 const io = socketio(server, {
   cors: {
     origin: ["http://localhost:3000"],
   },
 });
+const ConnectionUrl = process.env.MONGO_URL;
 const mongourl = "mongodb://localhost:27017/message";
 const PORT = process.env.PORT || 5000;
 app.use(cors());
@@ -35,7 +38,7 @@ io.on("connection", (socket) => {
   let userNowActive = [];
   let otherUser;
   socket.on("join", async (users, errorhandler) => {
-     //when user to chat with is selected
+    //when user to chat with is selected
     if (users.newuser) {
       const user = getUser(users.existinguser.userinfo.id);
       const userAlreadyActive = userNowActive.find(
@@ -49,16 +52,17 @@ io.on("connection", (socket) => {
       socketid = user.id;
       room = existinguser.phone;
       socket.join(existinguser.phone); //
-       // when a user refreshes or login
+      // when a user refreshes or login
     } else if (users.new) {
       const existinguser = getUserFromDB(users.userinfo.id);
       socketid = users.userinfo.id;
       room = existinguser.phone;
       socket.join(existinguser.phone); //
-       //For adding new users
+      //For adding new users
     } else if (!users.new && !users.newuser) {
       socketid = socket.id;
       const { isuser, err } = await addUser({ id: socket.id }, users);
+
       if (err) return (errorhandler = err);
       socket.emit("welcomingmessage", {
         user: "admin",
@@ -122,13 +126,18 @@ io.on("connection", (socket) => {
     console.log("user left");
   });
 });
-mongoose.connect(
-  mongourl,
-  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
-  () => {
+mongoose
+  .connect(ConnectionUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
     server.listen(
       PORT,
       console.log(`server is listening on localhost:${PORT}`)
     );
-  }
-);
+  })
+  .catch((err) => {
+    console.log(err);
+  });

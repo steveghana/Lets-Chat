@@ -111,6 +111,7 @@ const addUser = async ({ id }, user) => {
       language,
       password,
       imagUrl,
+      gender,
     } = user;
     const trimedphone = phone.trim();
     const isuser = {
@@ -120,6 +121,7 @@ const addUser = async ({ id }, user) => {
       phone,
       country,
       Birth,
+      gender,
       language,
       password,
       imagUrl,
@@ -134,6 +136,7 @@ const addUser = async ({ id }, user) => {
       nickName,
       country,
       Birth,
+      gender,
       language,
       password,
     });
@@ -144,6 +147,7 @@ const addUser = async ({ id }, user) => {
       phone: trimedphone,
       nickName,
       country,
+      gender,
       Birth,
       language,
       imagUrl,

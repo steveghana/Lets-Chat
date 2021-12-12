@@ -26,8 +26,8 @@ function Searchcontainer() {
     setuserHistoryAtProfile,
   } = useContext(UserContext);
   const isMobile = useMediaQuery("(max-width:700px)");
-  const existinguser = JSON.parse(sessionStorage.getItem(`userprofile`));
-  const usertoChat = JSON.parse(sessionStorage.getItem("newuser"));
+  const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
+  const usertoChat = JSON.parse(localStorage.getItem("newuser"));
   const refresh = useRef(null);
   const [allusers, setAllusers] = useState([]);
   const [chatHistoryContainingId, setchatHistoryContainingId] = useState([]);
@@ -46,7 +46,7 @@ function Searchcontainer() {
     setDBmessages(null);
     const { data: newuser } = await axios.get(`${baseURL}/usermessages/${id}`);
     setNewUser(newuser);
-    sessionStorage.setItem("newuser", JSON.stringify(newuser));
+    localStorage.setItem("newuser", JSON.stringify(newuser));
     socketInstance.emit("userhasArrived", existinguser);
     window.location.reload();
   };
@@ -79,14 +79,14 @@ function Searchcontainer() {
   //
   useEffect(() => {
     const filteredusers = allusers?.filter((user) =>
-    user?.firstname.toLowerCase().includes(filteredValue) || 
-    user?.secondname.toLowerCase().includes(filteredValue) 
+      user?.firstname.toLowerCase().includes(filteredValue) ||
+      user?.secondname.toLowerCase().includes(filteredValue)
     );
 
     setfilteredChatHistory(history);
     const filteredchathistory = history?.filter((user) =>
-      user?.firstname.toLowerCase().includes(filteredValue) || 
-      user?.secondname.toLowerCase().includes(filteredValue) 
+      user?.firstname.toLowerCase().includes(filteredValue) ||
+      user?.secondname.toLowerCase().includes(filteredValue)
     );
     setfilteredChatHistory(filteredchathistory);
     setfilteredUsers(filteredusers);
@@ -132,6 +132,7 @@ function Searchcontainer() {
           />
         </div>
       </div>
+      <div className="u" style={{ color: 'white' }}>{!allusers.length ? "No active users found" : "click to refresh"}</div>
       <div className="alluser_container">
         {showSettings ? (
           <ArrowBack

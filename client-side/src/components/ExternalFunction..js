@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const baseURL = "http://localhost:5000";
+
 export function userJoining(
   usertochat,
   existinguser,
@@ -28,7 +29,7 @@ export function userJoining(
     });
     //For adding new users
   } else {
-    sessionStorage.clear();
+    localStorage.clear();
 
     setuserprofile(userinput);
     socket.emit("join", userinput, (error) => {
@@ -100,7 +101,7 @@ export const handleRefresh = (
   history,
   setshowInputBox
 ) => {
-  sessionStorage.clear();
+  localStorage.clear();
   socketInstance.emit("userleft", existinguser?.userinfo.id);
   history.push("/");
   window.location.reload();

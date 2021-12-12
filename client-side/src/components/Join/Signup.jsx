@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import FileBase from "react-file-base64";
 
@@ -93,6 +93,13 @@ function Signup({ handleSubmit, userinput, handleChange, setuserinput, err }) {
           onChange={handleChange}
         />
       </div>
+      <FormControl>
+        <FormLabel component='legend'>  Gender </FormLabel>
+        <RadioGroup row aria-label="gender" name='gender' onChange={handleChange}>
+          <FormControlLabel value="female" control={<Radio color="primary" />} label="Female" />
+          <FormControlLabel value="male" control={<Radio color="primary" />} label="Male" />
+        </RadioGroup>
+      </FormControl>
       <Typography
         ref={err}
         color="secondary"
@@ -118,7 +125,7 @@ function Signup({ handleSubmit, userinput, handleChange, setuserinput, err }) {
         />
       </div>
       <Button type="submit" className="btn">
-        <Typography style={{color:'white'}}>Sign up</Typography>
+        <Typography style={{ color: 'white' }}>Sign up</Typography>
       </Button>
       {/* <p className="social-text">Or Sign up with social platforms</p> */}
       {/* <div className="social-media">

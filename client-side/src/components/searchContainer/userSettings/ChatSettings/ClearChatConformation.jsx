@@ -10,7 +10,7 @@ function ClearChatConformation({ setshowconfirmationPopup }) {
   const [isLoading, setisLoading] = useState(false);
   const [feedback, setfeedback] = useState("");
   const [showfeedback, setshowfeedback] = useState(false);
-  const existinguser = JSON.parse(sessionStorage.getItem("userprofile"));
+  const existinguser = JSON.parse(localStorage.getItem("userprofile"));
   const chatCleared = () => {
     setshowfeedback(true);
     setisLoading(true);

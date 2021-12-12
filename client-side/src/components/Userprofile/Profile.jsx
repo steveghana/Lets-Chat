@@ -9,7 +9,7 @@ import "./profile.scss";
 import { UserContext } from "../usercontext";
 import { Typography, Grid, Avatar, Badge } from "@material-ui/core";
 function Profile() {
-  const usertoChat = JSON.parse(sessionStorage.getItem("newuser"));
+  const usertoChat = JSON.parse(localStorage.getItem("newuser"));
   const { allMessages, darkmode, connectionStatus } = useContext(UserContext);
 
   const border = `1px solid ${darkmode ? "#525c6f" : "#4481eb"}`;
@@ -79,14 +79,14 @@ function Profile() {
               <Typography variant="caption">Tel:</Typography>
               <Typography variant="caption">{usertoChat?.phone}</Typography>
             </div>
-           
+
             <div className="user_info gender">
               <Typography variant="caption">Gender:</Typography>
-              <Typography variant="caption">Male</Typography>
+              <Typography variant="caption">{usertoChat?.gender}</Typography>
             </div>
             <div className="user_info Language">
               <Typography variant="caption">Language:</Typography>
-              <Typography variant="caption">English</Typography>
+              <Typography variant="caption">{usertoChat?.language}</Typography>
             </div>
           </div>
         </div>

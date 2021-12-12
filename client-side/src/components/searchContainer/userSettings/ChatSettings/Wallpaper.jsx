@@ -5,11 +5,11 @@ import { CloseOutlined } from "@material-ui/icons";
 import { Typography, Avatar } from "@material-ui/core";
 function Wallpaper({ setwallpapersettings }) {
   const { wallpaper, setwallpaper } = useContext(UserContext);
-  const Img = JSON.parse(sessionStorage.getItem("wallpaper"));
+  const Img = JSON.parse(localStorage.getItem("wallpaper"));
   useEffect(() => {
     if (wallpaper) {
-      sessionStorage.removeItem("wallpaper");
-      sessionStorage.setItem("wallpaper", JSON.stringify({ img: wallpaper }));
+      localStorage.removeItem("wallpaper");
+      localStorage.setItem("wallpaper", JSON.stringify({ img: wallpaper }));
     }
   }, [wallpaper]);
   return (
@@ -29,7 +29,7 @@ function Wallpaper({ setwallpapersettings }) {
         />
       </div>
       <div className='wallpaper-img'>
-      <Avatar src={wallpaper || Img?.img || null} style={{ height: "150px", width: "150px" }} />
+        <Avatar src={wallpaper || Img?.img || null} style={{ height: "150px", width: "150px" }} />
 
       </div>
       <div className="file">

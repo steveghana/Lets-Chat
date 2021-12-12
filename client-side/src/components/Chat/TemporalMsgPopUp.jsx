@@ -3,9 +3,9 @@ import { UserContext } from "../usercontext";
 import { Typography } from "@material-ui/core";
 function TemporalMsgPopUp() {
   const popup = useRef(null);
-  const existinguser = JSON.parse(sessionStorage.getItem("userprofile"));
+  const existinguser = JSON.parse(localStorage.getItem("userprofile"));
   const [popMessage, setpopMessage] = useState("");
-  const userTochat = JSON.parse(sessionStorage.getItem("newuser"));
+  const userTochat = JSON.parse(localStorage.getItem("newuser"));
   const { darkmode, recievedmessages } = useContext(UserContext);
   useEffect(() => {
     popup.current.style.transform = "translateY(-120%)";
