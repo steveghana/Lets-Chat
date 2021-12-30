@@ -11,7 +11,7 @@ import History from "./History";
 import Usersettings from "./userSettings/Usersettings";
 import "./search.scss";
 function Searchcontainer() {
-  const baseURL = "http://localhost:5000";
+  const baseURL = "https://letschat114.herokuapp.com";
   const {
     toggleMobileNav,
     setconnectionStatus,

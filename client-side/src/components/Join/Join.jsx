@@ -5,48 +5,62 @@ import axios from "axios";
 import Login from "../assets/log.svg";
 import { UserContext } from "../usercontext";
 import Signin from "./Signin";
+import logo from '../assets/logo.png'
 import Signup from "./Signup";
 import { signInAuth, inputSubmitAuth } from "../ExternalFunction.";
 import "./join.scss";
 function Join() {
   const { userinput, setuserinput } = useContext(UserContext);
-  const err = useRef(null);
+  // const err = useRef(null);
   const signin = useRef(null);
   const container = useRef(null);
-  const baseUrl = "http://localhost:5000/usermessages";
-  const [eror, seteror] = useState("");
+  const [signInError, setsignInError] = useState('')
+  const baseUrl = "https://letschat114.herokuapp.com/usermessages"
+  // "https://letschat114.herokuapp.com/usermessages";
+  const [err, seteror] = useState("");
   const [serverError, setserverError] = useState("");
   const [isLoading, setisLoading] = useState(false);
+  const [isSignInLoading, setisSignInLoading] = useState(false);
   const history = useHistory();
   const [signInuser, setsignInuser] = useState({
     phone: "",
     password: "",
   });
+
+  //
   const handleChange = (e) => {
-    console.log(userinput)
+
     e.preventDefault();
     setuserinput({ ...userinput, [e.target.name]: e.target.value });
   };
+
+  //
   const handleSigninChange = (e) => {
     e.preventDefault();
     setsignInuser({ ...signInuser, [e.target.name]: e.target.value });
   };
+
+  //
   const handlesigninSubmit = async (e) => {
     e.preventDefault();
     if (signInuser.phone.length === 0) {
-      signin.current.innerText = "Please enter your phone Number";
+      setsignInError("Enter your phone Number");
     }
-    if (isNaN(signInuser.phone)) {
-      signin.current.innerText = "Please enter a valid phone Number";
+
+    else if (isNaN(signInuser.phone)) {
+      setsignInError("Enter a valid phone number");
     }
-    if (signInuser.phone.length > 1 && signInuser.phone.length < 10) {
-      signin.current.innerText = "Please enter a valid phone number";
+    else if (signInuser.phone.length < 10) {
+      setsignInError("Your number should be at least 10 characters");
     } else {
+      setsignInError('')
+      setisSignInLoading(true)
       const { data } = await axios.post(`${baseUrl}/signin`, {
         phone: signInuser.phone,
       });
-      if (data.error) signin.current.innerText = "User doesn't exist";
-      setserverError(data.eror);
+      if (!data) return
+      setisSignInLoading(false)
+      if (data.error) setsignInError("User doesn't exist, try signing up");
       if (data.userexist) {
         localStorage.clear();
         localStorage.setItem(
@@ -54,7 +68,7 @@ function Join() {
           JSON.stringify({ userinfo: data?.userexist, new: true })
         );
         setsignInuser({ ...signInuser, signInuser: "" });
-        const { firstname, secondname } = data?.userexist
+        const { firstname } = data?.userexist
         history.push(`/chat/${firstname}`);
       }
     }
@@ -62,23 +76,35 @@ function Join() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setisLoading(true);
-    const { data } = await axios.post(`${baseUrl}/signin`, {
-      phone: userinput.phone,
-    });
-    if (data.userexist) {
-      setisLoading(false);
-      err.current.innerText = "User already exist, try signing in";
-    } else {
-      inputSubmitAuth(userinput, err, seteror, setisLoading, history);
+    const { authenticated } = inputSubmitAuth(userinput, seteror);
+    if (authenticated) {
+      seteror('')
+      setisLoading(true);
+      const { data } = await axios.post(`${baseUrl}/signin`, {
+        phone: userinput.phone,
+      });
+      if (!data) return
+      if (data.userexist) {
+        setisLoading(false);
+        seteror("User already exist, try signing in");
+      } else {
+        seteror("");
+        setisLoading(false);
+        const { firstname } = userinput
+        history.push(`/chat/${firstname}`);
+      }
     }
   };
+  //
   const handleSignup = () => {
     seteror("");
+    setsignInError("");
     container.current.classList.add("sign-up-mode");
   };
+  //
   const handleSignin = () => {
     seteror("");
+    setsignInError("");
     container.current.classList.remove("sign-up-mode");
   };
 
@@ -88,12 +114,14 @@ function Join() {
         <div className="signin-signup">
           <Signin
             signInuser={signInuser}
+            isSignInLoading={isSignInLoading}
             handleSigninChange={handleSigninChange}
-            signin={signin}
+            signInError={signInError}
             handlesigninSubmit={handlesigninSubmit}
           />
           <Signup
             handleSubmit={handleSubmit}
+            isLoading={isLoading}
             userinput={userinput}
             handleChange={handleChange}
             setuserinput={setuserinput}
@@ -105,6 +133,12 @@ function Join() {
       <div className="panels-container">
         <div className="panel left-panel">
           <div className="content">
+            <div className="content_logo" >
+              <h1>
+                Let's Chat
+              </h1>
+              <div className="logo"><img width='50px' height='50px' src={logo} alt="logo" /></div>
+            </div>
             <h3>New here ?</h3>
             <p>If you are new here please Sign up!</p>
             <button
@@ -120,6 +154,12 @@ function Join() {
 
         <div className="panel right-panel">
           <div className="content">
+            <div className="content2_logo" style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <h1>
+                Let's Chat
+              </h1>
+              <div className="logo2"><img width='50px' height='50px' src={logo} alt="logo" /></div>
+            </div>
             <h3>One of us ?</h3>
             <p>If you are one of us, Please sign in!</p>
             <button

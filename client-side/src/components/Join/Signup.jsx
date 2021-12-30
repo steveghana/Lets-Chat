@@ -2,9 +2,10 @@ import React from "react";
 import { Typography, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import FileBase from "react-file-base64";
+import Spinner from '../spinner/Spinner'
 
 import "./join.scss";
-function Signup({ handleSubmit, userinput, handleChange, setuserinput, err }) {
+function Signup({ handleSubmit, userinput, handleChange, setuserinput, err, isLoading }) {
   return (
     <form
       action="post"
@@ -20,7 +21,7 @@ function Signup({ handleSubmit, userinput, handleChange, setuserinput, err }) {
           value={userinput.firstname}
           required={true}
           name="firstname"
-          placeholder="Enter your name"
+          placeholder="Enter your first name"
           label="Name"
           autoComplete="off"
           onChange={handleChange}
@@ -33,7 +34,7 @@ function Signup({ handleSubmit, userinput, handleChange, setuserinput, err }) {
           value={userinput.secondName}
           required={true}
           name="secondname"
-          placeholder="Enter your name"
+          placeholder="Enter your last name"
           label="Name"
           autoComplete="off"
           onChange={handleChange}
@@ -101,11 +102,11 @@ function Signup({ handleSubmit, userinput, handleChange, setuserinput, err }) {
         </RadioGroup>
       </FormControl>
       <Typography
-        ref={err}
+
         color="secondary"
         className="error"
-        variant="h6"
-      ></Typography>
+        variant="body2"
+      >{isLoading ? <Spinner bg={'#4481eb'} /> : err}</Typography>
       <div
         className="file-type"
         style={{

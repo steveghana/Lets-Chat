@@ -1,10 +1,12 @@
 import React from "react";
 import { Typography, Button } from "@material-ui/core";
 import "./join.scss";
+import Spinner from "../spinner/Spinner";
 function Signin({
   signInuser,
+  isSignInLoading,
   handleSigninChange,
-  signin,
+  signInError,
   handlesigninSubmit,
 }) {
   return (
@@ -24,14 +26,13 @@ function Signin({
           onChange={handleSigninChange}
         />
       </div>
-      <Typography ref={signin} color="secondary" className="error">
-        {" "}
+      <Typography variant='body2' color="secondary" className="error">
+        {isSignInLoading ? <Spinner bg={'#4481eb'} /> : signInError}
       </Typography>
 
-      <Button onClick={handlesigninSubmit} className="btn solid" style={{color:'white'}}>
+      <Button onClick={handlesigninSubmit} className="btn solid" style={{ color: 'white' }}>
         Sign in
       </Button>
-      <p className="social-text">Or Sign in with social platforms</p>
     </form>
   );
 }

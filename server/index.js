@@ -3,10 +3,8 @@ const dotenv = require("dotenv");
 const socketio = require("socket.io");
 const http = require("http");
 const mongoose = require("mongoose");
-const app = express();
 const router = require("./routes/routes");
 const cors = require("cors");
-const server = http.createServer(app);
 const {
   postOtherUsersMessagesOffline,
   getUserOnline,
@@ -19,19 +17,25 @@ const {
   getuserTyping,
   clearChat,
 } = require("./utilities/utilis");
+const app = express();
+const server = http.createServer(app);
 dotenv.config();
+const PORT = process.env.PORT || 5000;
 const io = socketio(server, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: "https://letschat115.netlify.app",
+    methods: ["GET", "POST"],
   },
 });
 const ConnectionUrl = process.env.MONGO_URL;
-const mongourl = "mongodb://localhost:27017/message";
-const PORT = process.env.PORT || 5000;
+
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use("/usermessages", router);
+app.get("/", (req, res) => {
+  res.send("hello heroku");
+});
 io.on("connection", (socket) => {
   let socketid;
   let room;
@@ -130,7 +134,6 @@ mongoose
   .connect(ConnectionUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
   })
   .then(() => {
     server.listen(
@@ -139,5 +142,7 @@ mongoose
     );
   })
   .catch((err) => {
-    console.log(err);
+    console.log(err.message);
   });
+
+mongoose.set("useFindAndModify", false);

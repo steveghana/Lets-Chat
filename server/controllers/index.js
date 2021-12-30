@@ -48,11 +48,10 @@ const userSigningIn = async (req, res) => {
   const { phone } = req.body;
   try {
     const userexist = await incomingMessage.findOne({ phone });
-    // console.log(userexist);
     if (!userexist) return res.send({ error: "User doesnt exist" });
     return res.status(200).send({ userexist });
   } catch (error) {
-    return res.status(404).send('something went wrong');
+    return res.status(404).send("something went wrong");
   }
 };
 
@@ -77,7 +76,7 @@ const deleteUser = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(404).json('something went wrong')
+    res.status(404).json("something went wrong");
     console.log(error);
   }
 };

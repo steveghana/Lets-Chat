@@ -41,7 +41,7 @@ function Chat() {
   const isMobile = useMediaQuery("(max-width:700px)");
   useEffect(() => {
     const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
-    const Enpoint = "http://localhost:5000";
+    const Enpoint = "https://letschat114.herokuapp.com";
     socket = io(Enpoint);
     setsocketInstance(socket);
     userJoining(

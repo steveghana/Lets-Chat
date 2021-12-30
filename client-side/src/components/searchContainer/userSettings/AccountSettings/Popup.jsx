@@ -14,7 +14,7 @@ function Popup({
   setuserInfo,
 }) {
   const existinguser = JSON.parse(localStorage.getItem("userprofile"));
-  const baseUrl = "http://localhost:5000/usermessages";
+  const baseUrl = "https://letschat114.herokuapp.com/usermessages";
   const history = useHistory();
   const [newNum, setnewNum] = useState({
     newNumber: "",
@@ -32,6 +32,7 @@ function Popup({
     setisLoading(true);
 
     const { data } = await axios.post(`${baseUrl}/delete/${id}`);
+    console.log(data)
     data && setisLoading(false);
     if (data.error) {
       setserverFeed({ error: data.error });

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:5000";
+const baseURL = "https://letschat114.herokuapp.com";
 
 export function userJoining(
   usertochat,
@@ -50,30 +50,25 @@ export const getmessages = async (setDBmessages) => {
   setDBmessages(userinfo);
 };
 
-export const inputSubmitAuth = (
-  userinput,
-  err,
-  seteror,
-  setisLoading,
-  history
-) => {
+export const inputSubmitAuth = (userinput, seteror) => {
+  let authenticated = false;
   if (userinput.firstname === "") {
-    err.current.innerText = "Please enter your firstname";
+    seteror("Please enter your firstname");
   } else if (userinput.secondname === "") {
-    err.current.innerText = "Please enter your lastname";
+    seteror("Please enter your lastname");
   } else if (userinput.phone.length === 0) {
-    err.current.innerText = "Please enter your phone Number";
+    seteror("Please enter your phone Number");
+  } else if (userinput.password === "") {
+    seteror("Enter your password");
   } else if (isNaN(userinput.phone)) {
-    err.current.innerText = "Please enter a Valid phone Number";
+    seteror("Please enter a Valid phone Number");
   } else if (userinput.phone.length < 10) {
-    err.current.innerText =
-      "Your phone Number must be at least 10 characters long";
+    seteror("Your phone Number must be at least 10 characters long");
   } else {
-    seteror("");
-    setisLoading(false);
-    // const {firstname, secondname} = userinput
-    history.push(`/chat/${userinput.firstname}`);
+    authenticated = true;
   }
+
+  return { authenticated };
 };
 
 export const gethistory = (
