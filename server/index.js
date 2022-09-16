@@ -23,11 +23,13 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 const io = socketio(server, {
   cors: {
-    origin: "https://letschat115.netlify.app",
+    origin: "http://localhost:3000",
+    // "https://letschat115.netlify.app",
     methods: ["GET", "POST"],
   },
 });
-const ConnectionUrl = process.env.MONGO_URL;
+const ConnectionUrl =
+  "mongodb://localhost:27017/userMessages" || process.env.MONGO_URL;
 
 app.use(cors());
 app.use(express.json());
@@ -66,7 +68,7 @@ io.on("connection", (socket) => {
     } else if (!users.new && !users.newuser) {
       socketid = socket.id;
       const { isuser, err } = await addUser({ id: socket.id }, users);
-
+      console.log(isuser);
       if (err) return (errorhandler = err);
       socket.emit("welcomingmessage", {
         user: "admin",

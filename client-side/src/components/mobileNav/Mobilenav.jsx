@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { useMediaQuery, Typography } from "@material-ui/core";
-import { handleRefresh } from "../ExternalFunction.";
+import { handleRefresh } from "../ExternalFunction";
 import { UserContext } from "../usercontext";
 import "./mobile.scss";
 function Mobilenav() {

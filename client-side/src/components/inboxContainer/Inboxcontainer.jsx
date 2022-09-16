@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Typography, Grid } from "@material-ui/core";
-import { handleRefresh } from "../ExternalFunction.";
+import { handleRefresh } from "../ExternalFunction";
 import axios from "axios";
 import { PersonAddOutlined } from "@material-ui/icons";
 import { UserContext } from "../usercontext";
@@ -24,7 +24,7 @@ function Inboxcontainer() {
   useEffect(() => {
     (async () => {
       const { data: userinfo } = await axios.get(
-        "https://letschat114.herokuapp.com/usermessages"
+        "http://localhost:5000/usermessages"
         // "https://letschat114.herokuapp.com/usermessages"
       );
       const theUser = userinfo?.find(

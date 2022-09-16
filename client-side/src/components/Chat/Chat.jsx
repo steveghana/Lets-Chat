@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { userJoining, getusertyping, getmessages } from "../ExternalFunction.";
+import { userJoining, getusertyping, getmessages } from "../ExternalFunction";
 import io from "socket.io-client";
 import Mobilenav from "../mobileNav/Mobilenav";
 import ChatBox from "./ChatBox";
@@ -41,7 +41,9 @@ function Chat() {
   const isMobile = useMediaQuery("(max-width:700px)");
   useEffect(() => {
     const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
-    const Enpoint = "https://letschat114.herokuapp.com";
+
+    const Enpoint = "http://localhost:5000/userMessages";
+    // "https://letschat114.herokuapp.com";
     socket = io(Enpoint);
     setsocketInstance(socket);
     userJoining(
@@ -81,6 +83,7 @@ function Chat() {
   useEffect(() => {
     socket.on("welcomingmessage", (message) => {
       const { userinfo } = message;
+      console.log(userinfo);
       localStorage.setItem(
         "userprofile",
         JSON.stringify({ userinfo, new: true })

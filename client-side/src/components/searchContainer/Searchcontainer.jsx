@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from "react";
 import axios from "axios";
 import { Spinner } from "../exports";
 import { SearchOutlined, AutorenewTwoTone } from "@material-ui/icons";
-import { gethistory } from "../ExternalFunction.";
+import { gethistory } from "../ExternalFunction";
 import { ArrowBack } from "@material-ui/icons";
 import { Grid, useMediaQuery } from "@material-ui/core";
 import { UserContext } from "../usercontext";
@@ -11,7 +11,8 @@ import History from "./History";
 import Usersettings from "./userSettings/Usersettings";
 import "./search.scss";
 function Searchcontainer() {
-  const baseURL = "https://letschat114.herokuapp.com";
+  const baseURL = "http://localhost:5000/userMessages";
+  // "https://letschat114.herokuapp.com";
   const {
     toggleMobileNav,
     setconnectionStatus,
@@ -78,15 +79,17 @@ function Searchcontainer() {
   }, [recievedmessages, showChatHistory]);
   //
   useEffect(() => {
-    const filteredusers = allusers?.filter((user) =>
-      user?.firstname.toLowerCase().includes(filteredValue) ||
-      user?.secondname.toLowerCase().includes(filteredValue)
+    const filteredusers = allusers?.filter(
+      (user) =>
+        user?.firstname.toLowerCase().includes(filteredValue) ||
+        user?.secondname.toLowerCase().includes(filteredValue)
     );
 
     setfilteredChatHistory(history);
-    const filteredchathistory = history?.filter((user) =>
-      user?.firstname.toLowerCase().includes(filteredValue) ||
-      user?.secondname.toLowerCase().includes(filteredValue)
+    const filteredchathistory = history?.filter(
+      (user) =>
+        user?.firstname.toLowerCase().includes(filteredValue) ||
+        user?.secondname.toLowerCase().includes(filteredValue)
     );
     setfilteredChatHistory(filteredchathistory);
     setfilteredUsers(filteredusers);
@@ -132,7 +135,9 @@ function Searchcontainer() {
           />
         </div>
       </div>
-      <div className="u" style={{ color: 'white' }}>{!allusers.length ? "No active users found" : "click to refresh"}</div>
+      <div className="u" style={{ color: "white" }}>
+        {!allusers.length ? "No active users found" : "click to refresh"}
+      </div>
       <div className="alluser_container">
         {showSettings ? (
           <ArrowBack

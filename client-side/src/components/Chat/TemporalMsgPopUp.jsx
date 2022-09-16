@@ -23,7 +23,7 @@ function TemporalMsgPopUp() {
       popup.current.style.transform = "translateY(10%)";
       setTimeout(() => {
         popup.current.style.transform = "translateY(-120%)";
-      }, 2000);
+      }, 12000);
     }
   }, [recievedmessages]);
   const toggleDark = darkmode
