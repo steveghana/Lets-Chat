@@ -8,12 +8,12 @@ function DBmessage({ message, darkmode }) {
     ? "linear-gradient(-45deg, #ffffff 0%, #bbbbbb 100%)"
     : "white";
   const myid = existinguser?.userinfo.id;
-  if (!userTochat) return null;
+  if (!userTochat) return;
   return (
     message.id === myid &&
     message?.messages?.map((userinfo, i) =>
       userinfo?.user?.FromMe === myid &&
-        userinfo.user.Reciever === userTochat.id ? (
+      userinfo.user.Reciever === userTochat.id ? (
         <div
           className="message_sent_container"
           key={userinfo?.user?.FromMe + i}
