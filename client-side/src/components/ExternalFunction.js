@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:5000/userMessages";
+const baseURL = "http://localhost:5000";
 // "https://letschat114.herokuapp.com";
 
 export function userJoining(
@@ -11,6 +11,7 @@ export function userJoining(
   userinput,
   socket
 ) {
+
   //when user to chat with is selected
   if (usertochat && existinguser) {
     setuserprofile(existinguser);
@@ -31,10 +32,13 @@ export function userJoining(
     //For adding new users
   } else {
     localStorage.clear();
-
+    // console.log(userinput, 'from joining')
     setuserprofile(userinput);
     socket.emit("join", userinput, (error) => {
-      console.log(error);
+      if (error) {
+        console.log("Error joining:", error);
+        // Handle the join error (e.g., show an error message to the user)
+      }
     });
   }
 }
@@ -45,10 +49,16 @@ export const getusertyping = (user, setuserTyping, setshowusertyping) => {
     setshowusertyping(false);
   }, 7000);
 };
-export const getmessages = async (setDBmessages) => {
-  const { data: userinfo } = await axios.get(`${baseURL}/usermessages`);
+export const getmessages = async () => {
+  try {
+    const { data: userinfo } = await axios.get(`${baseURL}/userMessages`);
+    return userinfo
+    
+  } catch (error) {
+    console.log(error)
+  }
 
-  setDBmessages(userinfo);
+  // setDBmessages(userinfo);
 };
 
 export const inputSubmitAuth = (userinput, seteror) => {

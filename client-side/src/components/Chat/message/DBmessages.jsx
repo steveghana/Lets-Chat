@@ -8,7 +8,7 @@ function DBmessage({ message, darkmode }) {
     ? "linear-gradient(-45deg, #ffffff 0%, #bbbbbb 100%)"
     : "white";
   const myid = existinguser?.userinfo.id;
-  if (!userTochat) return;
+  if (!userTochat) return null;
   return (
     message.id === myid &&
     message?.messages?.map((userinfo, i) =>
@@ -42,5 +42,6 @@ function DBmessage({ message, darkmode }) {
     )
   );
 }
+
 
 export default DBmessage;

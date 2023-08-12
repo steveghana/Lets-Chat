@@ -7,9 +7,10 @@ function ChatBox({ DBmessages, recievedmessages, darkmode }) {
   useEffect(() => {
     scroll.current.scrollTop = scroll.current.scrollHeight;
   }, [recievedmessages]);
+
   return (
     <div ref={scroll} className="chat_box" style={{ zIndex: "4" }}>
-      {DBmessages &&
+      {
         DBmessages?.map((message, i) => (
           <div key={i} style={{ zIndex: "5" }}>
             <DBmessage message={message} darkmode={darkmode} />{" "}

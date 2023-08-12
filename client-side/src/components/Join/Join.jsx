@@ -1,11 +1,11 @@
 import React, { useContext, useRef, useState } from "react";
 import { useHistory } from "react-router";
-import Register from "../assets/register.svg";
+import Register from "../../assets/register.svg";
 import axios from "axios";
-import Login from "../assets/log.svg";
+import Login from "../../assets/log.svg";
 import { UserContext } from "../usercontext";
 import Signin from "./Signin";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 import Signup from "./Signup";
 import { signInAuth, inputSubmitAuth } from "../ExternalFunction";
 import "./join.scss";
@@ -15,7 +15,7 @@ function Join() {
   const signin = useRef(null);
   const container = useRef(null);
   const [signInError, setsignInError] = useState("");
-  const baseUrl = "http://localhost:5000/usermessages";
+  const baseUrl = "http://localhost:5000/userMessages";
   // "https://letschat114.herokuapp.com/usermessages";
   const [err, seteror] = useState("");
   const [serverError, setserverError] = useState("");
@@ -76,11 +76,21 @@ function Join() {
     if (authenticated) {
       seteror("");
       setisLoading(true);
-      const { data } = await axios.post(`${baseUrl}/signin`, {
-        phone: userinput.phone,
-      });
-      if (!data) return;
-      if (data.userexist) {
+      const res = await axios
+        .post(`${baseUrl}/signin`, {
+          phone: userinput.phone,
+        })
+        .catch((err) => {
+          setisLoading(false);
+          seteror("Something went wrong, pls try again later");
+         
+        });
+      console.log(res);
+      if (!res) {
+        seteror("Something went wrong, pls try again later");
+        return;
+      }
+      if (res.data.userexist) {
         setisLoading(false);
         seteror("User already exist, try signing in");
       } else {

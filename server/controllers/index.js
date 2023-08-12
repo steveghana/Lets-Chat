@@ -45,7 +45,7 @@ const getChangedNum = async (req, res) => {
 };
 
 const userSigningIn = async (req, res) => {
-  const { phone } = req.body;
+  const { phone, type } = req.body;
   try {
     const userexist = await incomingMessage.findOne({ phone });
     if (!userexist) return res.send({ error: "User doesnt exist" });

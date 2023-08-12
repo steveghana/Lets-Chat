@@ -17,6 +17,7 @@ const {
   getuserTyping,
   clearChat,
 } = require("./utilities/utilis");
+const incomingMessage = require("./models/model");
 const app = express();
 const server = http.createServer(app);
 dotenv.config();
@@ -29,21 +30,23 @@ const io = socketio(server, {
   },
 });
 const ConnectionUrl =
-  "mongodb://localhost:27017/userMessages" || process.env.MONGO_URL;
+  "mongodb://localhost:27017/userMessages"; /* || process.env.MONGO_URL */
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/usermessages", router);
-app.get("/", (req, res) => {
-  res.send("hello heroku");
-});
+app.use("/userMessages", router);
+// app.get("/", (req, res) => {
+//   res.send("hello heroku");
+// });
 io.on("connection", (socket) => {
+  // console.log( 'connected')
   let socketid;
   let room;
   let userNowActive = [];
   let otherUser;
   socket.on("join", async (users, errorhandler) => {
+    // console.log(users, 'from join')
     //when user to chat with is selected
     if (users.newuser) {
       const user = getUser(users.existinguser.userinfo.id);
@@ -68,7 +71,7 @@ io.on("connection", (socket) => {
     } else if (!users.new && !users.newuser) {
       socketid = socket.id;
       const { isuser, err } = await addUser({ id: socket.id }, users);
-      console.log(isuser);
+      // console.log(isuser);
       if (err) return (errorhandler = err);
       socket.emit("welcomingmessage", {
         user: "admin",
@@ -138,6 +141,26 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
+    // const newUser = incomingMessage.create({
+    //   username: "john_doe",
+    //   email: "john@example.com",
+    //   phone: "22345354545454",
+    //   secondname: "john",
+    //   firstname: "doe",
+    // })   .then(() => {
+    //   console.log("User saved");
+    // })
+    // .catch((error) => {
+    //   console.error(error);
+    // });
+    // const newUser = new User({
+    //   username: 'john_doe',
+    //   email: 'john@example.com',
+    // });
+
+    
+   
+
     server.listen(
       PORT,
       console.log(`server is listening on localhost:${PORT}`)

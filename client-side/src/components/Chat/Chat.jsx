@@ -39,12 +39,21 @@ function Chat() {
   const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
   const [Img, setImg] = useState("");
   const isMobile = useMediaQuery("(max-width:700px)");
+  console.log('usertochat:',usertochat,'existing:', existinguser,'new:',newuser)
   useEffect(() => {
     const existinguser = JSON.parse(localStorage.getItem(`userprofile`));
 
-    const Enpoint = "http://localhost:5000/userMessages";
+    const Enpoint = "http://localhost:5000";
     // "https://letschat114.herokuapp.com";
     socket = io(Enpoint);
+    socket.on("connect", () => {
+      console.log("Connected to server");
+    });
+    
+    socket.on("connect_error", (error) => {
+      console.error("Connection error:", error);
+    });
+    
     setsocketInstance(socket);
     userJoining(
       usertochat,
@@ -83,7 +92,6 @@ function Chat() {
   useEffect(() => {
     socket.on("welcomingmessage", (message) => {
       const { userinfo } = message;
-      console.log(userinfo);
       localStorage.setItem(
         "userprofile",
         JSON.stringify({ userinfo, new: true })
@@ -93,11 +101,16 @@ function Chat() {
     socket.on("incomingAndOutgoingMessages", (message) => {
       socket.emit("recievedmessages", message);
     });
-    getmessages(setDBmessages);
+    getmessages().then((res)=>{
+    // console.log(res, 'from db')
+setDBmessages(res)
+return res
+  }).catch(err=> console.log(err));
     socket.on("theUserTyping", (user) => {
       getusertyping(user, setuserTyping, setshowusertyping);
     });
   }, []);
+  console.log(DBmessages, 'at ');
 
   return (
     <Grid item sm={11} md={7} xs={10} className="chat_container">

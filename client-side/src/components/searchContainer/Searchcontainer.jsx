@@ -11,7 +11,7 @@ import History from "./History";
 import Usersettings from "./userSettings/Usersettings";
 import "./search.scss";
 function Searchcontainer() {
-  const baseURL = "http://localhost:5000/userMessages";
+  const baseURL = "http://localhost:5000";
   // "https://letschat114.herokuapp.com";
   const {
     toggleMobileNav,
@@ -45,7 +45,7 @@ function Searchcontainer() {
   const getUserById = async (id) => {
     setrecievedmessages([]);
     setDBmessages(null);
-    const { data: newuser } = await axios.get(`${baseURL}/usermessages/${id}`);
+    const { data: newuser } = await axios.get(`${baseURL}/userMessages/${id}`);
     setNewUser(newuser);
     localStorage.setItem("newuser", JSON.stringify(newuser));
     socketInstance.emit("userhasArrived", existinguser);
@@ -54,7 +54,7 @@ function Searchcontainer() {
   //
   const getusers = async () => {
     setLoading(true);
-    const { data: userinfo } = await axios.get(`${baseURL}/usermessages`);
+    const { data: userinfo } = await axios.get(`${baseURL}/userMessages`);
     if (!userinfo) return;
     setLoading(false);
     const myinfo = userinfo?.find(
@@ -139,7 +139,7 @@ function Searchcontainer() {
         {!allusers.length ? "No active users found" : "click to refresh"}
       </div>
       <div className="alluser_container">
-        {showSettings ? (
+        {showAccountSetting || chatSettings ? (
           <ArrowBack
             style={{
               color: "white",
